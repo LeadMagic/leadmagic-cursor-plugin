@@ -5,7 +5,6 @@ import fs from "node:fs";
 import path from "node:path";
 
 const root = process.cwd();
-const expectedApiKeyInterpolation = "$" + "{LEADMAGIC_API_KEY}";
 const expectedSubmissionLogoUrl =
 	"https://raw.githubusercontent.com/LeadMagic/leadmagic-cursor-plugin/main/assets/logo.svg";
 
@@ -120,10 +119,14 @@ try {
 		mcp.mcpServers.leadmagic.url === "https://mcp.leadmagic.io/mcp",
 		"leadmagic MCP URL must point to the hosted endpoint",
 	);
+	const lmServer = mcp.mcpServers.leadmagic;
+	const headerKeys =
+		lmServer.headers && typeof lmServer.headers === "object"
+			? Object.keys(lmServer.headers)
+			: [];
 	assert(
-		mcp.mcpServers.leadmagic.headers?.["x-leadmagic-key"] ===
-			expectedApiKeyInterpolation,
-		"leadmagic MCP auth must use LEADMAGIC_API_KEY interpolation",
+		headerKeys.length === 0,
+		"leadmagic MCP default must omit headers so Cursor uses OAuth sign-in with LeadMagic (see README for API-key fallback)",
 	);
 
 	const skillsRoot = path.join(root, "skills");
@@ -167,6 +170,7 @@ try {
 		"https://mcp.leadmagic.io/mcp",
 		"leadmagic://docs",
 		"LeadMagic MCP Tools",
+		"OAuth",
 	]) {
 		assert(
 			readme.includes(expectedText),
@@ -215,8 +219,20 @@ try {
 		"Missing scripts/install-local-plugin.mjs",
 	);
 	assert(
+		exists("scripts/verify-mcp-health.mjs"),
+		"Missing scripts/verify-mcp-health.mjs",
+	);
+	assert(
 		readme.includes("npm run install:local"),
 		"README.md must document local plugin installation",
+	);
+	assert(
+		readme.includes("npm run check"),
+		"README.md must document npm run check (validate + hosted health)",
+	);
+	assert(
+		readme.includes("npm run verify:health"),
+		"README.md must mention verify:health (used by check and CI)",
 	);
 
 	console.log("LeadMagic Cursor plugin validation passed.");

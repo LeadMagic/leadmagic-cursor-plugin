@@ -24,4 +24,4 @@ When this plugin is available:
    - and any obvious next best step.
 6. For email validation, summarize only what appears in the tool output (including the stated result line). Do not speculate about “missing” deliverability details, catch-all behavior, or fields the response does not include.
 7. If parameter requirements, supported inputs, or pricing are unclear, consult the shared MCP docs resource `leadmagic://docs` before guessing.
-8. If the API key is missing or authentication fails, tell the user they need to set `LEADMAGIC_API_KEY`.
+8. If authentication fails, tell the user to finish LeadMagic sign-in for MCP in Cursor (OAuth), or use the API-key fallback in the plugin README (`LEADMAGIC_API_KEY` + `x-leadmagic-key` header) if OAuth is not available.

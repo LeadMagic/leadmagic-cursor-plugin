@@ -1,11 +1,8 @@
 {
-  "mcpServers": {
-    "leadmagic": {
-      "type": "http",
-      "url": "https://mcp.leadmagic.io/mcp",
-      "headers": {
-        "x-leadmagic-key": "${LEADMAGIC_API_KEY}"
-      }
-    }
-  }
+	"mcpServers": {
+		"leadmagic": {
+			"type": "http",
+			"url": "https://mcp.leadmagic.io/mcp"
+		}
+	}
 }

@@ -1,8 +1,8 @@
 {
 	"name": "leadmagic",
 	"displayName": "LeadMagic",
-	"version": "0.1.3",
-	"description": "Official LeadMagic plugin for Cursor with hosted MCP: emails, mobile, LinkedIn-to-email, job changes, company research, competitors, technographics, and credits.",
+	"version": "0.1.4",
+	"description": "Official LeadMagic plugin for Cursor with hosted MCP (OAuth by default): emails, mobile, LinkedIn-to-email, job changes, company research, competitors, technographics, and credits.",
 	"author": {
 		"name": "LeadMagic",
 		"email": "plugins@leadmagic.io"

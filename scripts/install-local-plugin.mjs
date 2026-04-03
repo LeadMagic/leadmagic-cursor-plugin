@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import fs from "node:fs";
-import path from "node:path";
 import os from "node:os";
+import path from "node:path";
 
 const pluginRoot = process.cwd();
 const manifestPath = path.join(pluginRoot, ".cursor-plugin", "plugin.json");
@@ -48,7 +48,7 @@ try {
 	console.log(`Linked plugin to ${linkPath}`);
 	console.log("Next step: reload Cursor with 'Developer: Reload Window'.");
 	console.log(
-		"Important: make sure LEADMAGIC_API_KEY is available to the Cursor process before reloading.",
+		"After reload: complete LeadMagic OAuth when Cursor connects to MCP, or configure LEADMAGIC_API_KEY + headers per README if you use API-key mode.",
 	);
 } catch (error) {
 	console.error(error instanceof Error ? error.message : String(error));

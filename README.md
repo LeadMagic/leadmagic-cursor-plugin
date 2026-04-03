@@ -31,7 +31,7 @@ Use this plugin when you want Cursor to help with:
 
 ## Data and privacy
 
-MCP tool calls send the parameters you or the agent provide (for example emails, names, company names or domains, profile URLs) to LeadMagic's hosted service using your `LEADMAGIC_API_KEY`. See [Privacy](https://leadmagic.io/privacy) and [Terms](https://leadmagic.io/legal/terms). Support: [leadmagic.io/docs/support](https://leadmagic.io/docs/support).
+MCP tool calls send the parameters you or the agent provide (for example emails, names, company names or domains, profile URLs) to LeadMagic's hosted service. By default Cursor authenticates with LeadMagic using **OAuth** (browser sign-in) tied to your account. If you use the optional API-key setup, requests include your key from `LEADMAGIC_API_KEY`. See [Privacy](https://leadmagic.io/privacy) and [Terms](https://leadmagic.io/legal/terms). Support: [leadmagic.io/docs/support](https://leadmagic.io/docs/support).
 
 ## Hosted MCP Configuration
 
@@ -39,9 +39,23 @@ The plugin points Cursor at LeadMagic's hosted MCP endpoint:
 
 - MCP endpoint: `https://mcp.leadmagic.io/mcp`
 - MCP transport: `http`
-- Auth header: `x-leadmagic-key`
+- **Default auth:** OAuth sign-in in Cursor when you enable or first use the LeadMagic MCP server (no API key in `mcp.json`)
 
-Users provide their API key through the `LEADMAGIC_API_KEY` environment variable. The plugin forwards that key to the hosted MCP server at runtime.
+**Optional API-key auth:** Advanced setups can add a static header so Cursor sends your key instead of OAuth. Merge or replace the server entry like this (environment variable must be visible to Cursor):
+
+```json
+{
+  "mcpServers": {
+    "leadmagic": {
+      "type": "http",
+      "url": "https://mcp.leadmagic.io/mcp",
+      "headers": {
+        "x-leadmagic-key": "${LEADMAGIC_API_KEY}"
+      }
+    }
+  }
+}
+```
 
 ## What The MCP Supports Today
 
@@ -76,13 +90,7 @@ For private team distribution in Cursor:
 
 ### Install locally for testing
 
-#### 1. Set your API key
-
-```bash
-export LEADMAGIC_API_KEY="your_api_key_here"
-```
-
-#### 2. Link the repository into Cursor
+#### 1. Link the repository into Cursor
 
 If you are using this repository locally:
 
@@ -95,7 +103,15 @@ This creates a symlink at `~/.cursor/plugins/local/leadmagic` pointing to this r
 
 Then reload Cursor with `Developer: Reload Window`.
 
-#### 3. Verify the connection
+#### 2. Sign in with LeadMagic (OAuth)
+
+When Cursor connects to the LeadMagic MCP server, complete the browser OAuth flow if prompted. You do not need `LEADMAGIC_API_KEY` for the default configuration.
+
+#### 3. Optional: use an API key instead of OAuth
+
+If you cannot use OAuth, set `LEADMAGIC_API_KEY` in an environment Cursor inherits and add the `headers` block shown under [Hosted MCP Configuration](#hosted-mcp-configuration).
+
+#### 4. Verify the connection
 
 Ask Cursor one of these:
 
@@ -105,12 +121,14 @@ Ask Cursor one of these:
 
 ## Local Development
 
-From the repository root, install dependencies and validate the package:
+From the repository root, install dependencies and run the full check:
 
 ```bash
 npm ci
-npm run validate
+npm run check
 ```
+
+If you cannot reach the network, use `npm run validate` instead of `check`.
 
 To link the plugin into Cursor locally:
 
@@ -126,21 +144,25 @@ npm run uninstall:local
 
 ## Troubleshooting
 
-### Cursor cannot see `LEADMAGIC_API_KEY`
+### OAuth or MCP sign-in fails
 
-On macOS, if Cursor was launched from the dock or Finder, it may not inherit your shell environment. If `LEADMAGIC_API_KEY` is set in your terminal but LeadMagic still fails inside Cursor, launch Cursor from the same shell session or reload it after exporting the variable in an environment Cursor can see.
+Retry the LeadMagic sign-in flow from Cursor's MCP settings. Confirm the server URL is `https://mcp.leadmagic.io/mcp` and that no stale custom `mcp.json` override is forcing invalid headers. If OAuth is blocked in your environment, switch to the API-key configuration in [Hosted MCP Configuration](#hosted-mcp-configuration).
 
-### Authentication fails
+### Cursor cannot see `LEADMAGIC_API_KEY` (API-key mode only)
+
+On macOS, if Cursor was launched from the dock or Finder, it may not inherit your shell environment. If you use the API-key header and `LEADMAGIC_API_KEY` is set in your terminal but LeadMagic still fails inside Cursor, launch Cursor from the same shell session or reload it after exporting the variable in an environment Cursor can see.
+
+### Authentication fails (API-key mode)
 
 Confirm that:
 
 - `LEADMAGIC_API_KEY` is set in the environment visible to Cursor
+- your merged MCP config includes `x-leadmagic-key` with `${LEADMAGIC_API_KEY}`
 - the plugin is using `https://mcp.leadmagic.io/mcp`
-- the request header is `x-leadmagic-key`
 
 ### Hosted MCP reachability
 
-`GET https://mcp.leadmagic.io/health` should return **200** when the service is up. Unauthenticated requests to `/mcp` may return **401** until a valid API key is sent— that is expected.
+`GET https://mcp.leadmagic.io/health` should return **200** when the service is up. Unauthenticated requests to `/mcp` may return **401** until OAuth completes or a valid API key is sent—that is expected.
 
 ### You need exact tool details
 
@@ -173,6 +195,7 @@ rules/leadmagic-usage.mdc
 skills/*/SKILL.md
 scripts/install-local-plugin.mjs
 scripts/validate-plugin.mjs
+scripts/verify-mcp-health.mjs
 README.md
 SUBMISSION.md
 CHANGELOG.md
@@ -181,13 +204,14 @@ CHANGELOG.md
 ## Validation
 
 ```bash
-npm run validate
+npm run check
 ```
+
+That runs `npm run validate` plus `npm run verify:health` (hosted `/health` smoke check—same idea as CI). Use `npm run validate` alone when you are offline.
 
 The validator checks this package against a vendored snapshot of Cursor's official `plugin.schema.json` and then applies LeadMagic-specific assertions for:
 
-- the hosted MCP endpoint
-- `LEADMAGIC_API_KEY` interpolation
+- the hosted MCP endpoint and OAuth-default `mcp.json` (no auth headers)
 - the canonical logo asset and submission logo URL
 - skills and rules metadata
 - repository and submission copy consistency

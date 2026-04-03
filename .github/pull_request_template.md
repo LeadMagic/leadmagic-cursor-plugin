@@ -14,14 +14,14 @@
 
 ## Validation
 
-- [ ] Ran `npm run validate`
+- [ ] Ran `npm run validate` (or `npm run check` to include hosted health)
 - [ ] Checked that copy matches the current hosted MCP surface
 - [ ] Verified no secrets or hardcoded API keys were added
 
 ## Alignment Checklist
 
 - [ ] `mcp.json` still points to `https://mcp.leadmagic.io/mcp`
-- [ ] Auth still uses `x-leadmagic-key`
+- [ ] Default `mcp.json` stays OAuth-only (no headers); API-key fallback documented in README if needed
 - [ ] Repo copy does not imply MCP support for tools outside the current MCP surface
 - [ ] README and submission copy stay consistent
 

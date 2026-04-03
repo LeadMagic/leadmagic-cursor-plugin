@@ -17,6 +17,7 @@ on:
       - "rules/**"
       - "schemas/**"
       - "scripts/**"
+      - "CHANGELOG.md"
       - "skills/**"
 
 jobs:
@@ -38,25 +39,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Validate plugin package
-        run: npm run validate
-
-      - name: Check hosted MCP endpoint
-        run: |
-          node <<'EOF'
-          const fs = require('node:fs');
-          const data = JSON.parse(fs.readFileSync('mcp.json', 'utf8'));
-          const server = data.mcpServers?.leadmagic;
-
-          if (!server || server.type !== 'http' || server.url !== 'https://mcp.leadmagic.io/mcp') {
-            throw new Error('mcp.json must point to the hosted LeadMagic MCP endpoint with explicit HTTP transport');
-          }
-
-          if (!server.headers || server.headers['x-leadmagic-key'] !== '${LEADMAGIC_API_KEY}') {
-            throw new Error('mcp.json must use LEADMAGIC_API_KEY interpolation');
-          }
-          EOF
+      - name: Validate plugin and hosted health
+        run: npm run check
 
       - name: Check README references
         run: |
-          node -e "const fs=require('node:fs');const text=fs.readFileSync('README.md','utf8');for(const value of ['https://mcp.leadmagic.io/mcp','leadmagic://docs','LeadMagic MCP Tools']){if(!text.includes(value)){throw new Error('README.md is missing required reference: '+value)}}"
+          node -e "const fs=require('node:fs');const text=fs.readFileSync('README.md','utf8');for(const value of ['https://mcp.leadmagic.io/mcp','leadmagic://docs','LeadMagic MCP Tools','OAuth']){if(!text.includes(value)){throw new Error('README.md is missing required reference: '+value)}}"

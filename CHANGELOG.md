@@ -2,6 +2,11 @@
 
 All notable changes to the LeadMagic Cursor plugin package are documented here.
 
+## 0.1.4
+
+- **Auth:** Default `mcp.json` uses OAuth only (no headers); Cursor signs in with LeadMagic. README documents optional `x-leadmagic-key` + `${LEADMAGIC_API_KEY}` for API-key mode.
+- **CI:** `npm run check` runs validate plus `verify:health` against `https://mcp.leadmagic.io/health`; redundant `mcp.json` inline checks removed (covered by validate).
+
 ## 0.1.3
 
 - **MCP:** Hosted server at `https://mcp.leadmagic.io/mcp` — 10 tools, shared docs resource `leadmagic://docs`, prompts `account_research` and `contact_lookup`.
