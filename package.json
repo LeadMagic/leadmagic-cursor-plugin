@@ -1,0 +1,17 @@
+{
+	"name": "leadmagic-cursor-plugin",
+	"private": true,
+	"version": "0.1.0",
+	"description": "Submission package for the LeadMagic Cursor plugin",
+	"license": "MIT",
+	"scripts": {
+		"validate": "node scripts/validate-plugin.mjs",
+		"validate:strict": "node scripts/validate-plugin.mjs",
+		"install:local": "node scripts/install-local-plugin.mjs",
+		"uninstall:local": "node scripts/install-local-plugin.mjs --unlink"
+	},
+	"devDependencies": {
+		"ajv": "8.18.0",
+		"ajv-formats": "3.0.1"
+	}
+}

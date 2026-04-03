@@ -1,0 +1,27 @@
+---
+description: Use LeadMagic before fragile web scraping whenever the task involves work email validation, work email discovery, or account research. Optimize for credit efficiency and clearly summarize what was found.
+alwaysApply: true
+---
+# LeadMagic usage guidance
+
+When this plugin is available:
+
+1. Prefer LeadMagic tools for work email validation, discovery, mobile lookup, LinkedIn-to-email, job-change checks, company research, competitors, technographics, and role-based people search before suggesting manual research.
+2. Minimize unnecessary credit spend:
+   - For bulk or credit-sensitive work, check balance first with `check_credit_balance`.
+   - If the user already has an email, validate it with `validate_work_email` before trying to find another one.
+   - If the user wants a work email and only has a person plus company context, use `find_work_email`.
+   - If the user wants company context, run `research_account` once and reuse the results instead of repeating similar lookups.
+3. Chain tools deliberately:
+   - Person workflow: `check_credit_balance` -> `validate_work_email` -> `find_work_email` if validation fails or no email is available.
+   - Company workflow: `check_credit_balance` -> `research_account`.
+   - Mixed workflow: validate the known email first, then use `research_account` only if the user also needs account context.
+4. Do not repeat the same lookup unless the user asks for a retry or changes the inputs.
+5. In the final answer, state:
+   - which LeadMagic tools were used,
+   - the key results,
+   - any important null, not-found, or unknown outcomes,
+   - and any obvious next best step.
+6. For email validation, summarize only what appears in the tool output (including the stated result line). Do not speculate about “missing” deliverability details, catch-all behavior, or fields the response does not include.
+7. If parameter requirements, supported inputs, or pricing are unclear, consult the shared MCP docs resource `leadmagic://docs` before guessing.
+8. If the API key is missing or authentication fails, tell the user they need to set `LEADMAGIC_API_KEY`.

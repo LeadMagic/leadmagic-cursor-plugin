@@ -1,0 +1,31 @@
+{
+	"name": "leadmagic",
+	"displayName": "LeadMagic",
+	"version": "0.1.3",
+	"description": "Official LeadMagic plugin for Cursor with hosted MCP: emails, mobile, LinkedIn-to-email, job changes, company research, competitors, technographics, and credits.",
+	"author": {
+		"name": "LeadMagic",
+		"email": "plugins@leadmagic.io"
+	},
+	"homepage": "https://leadmagic.io",
+	"repository": "https://github.com/LeadMagic/leadmagic-cursor-plugin",
+	"license": "MIT",
+	"logo": "assets/logo.svg",
+	"keywords": [
+		"leadmagic",
+		"cursor",
+		"mcp",
+		"b2b",
+		"data-enrichment",
+		"email-validation",
+		"email-finder",
+		"company-intelligence",
+		"prospecting",
+		"gtm"
+	],
+	"category": "developer-tools",
+	"tags": ["sales", "prospecting", "enrichment", "mcp", "api"],
+	"rules": "./rules/",
+	"skills": "./skills/",
+	"mcpServers": "./mcp.json"
+}
