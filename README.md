@@ -138,6 +138,10 @@ Confirm that:
 - the plugin is using `https://mcp.leadmagic.io/mcp`
 - the request header is `x-leadmagic-key`
 
+### Hosted MCP reachability
+
+`GET https://mcp.leadmagic.io/health` should return **200** when the service is up. Unauthenticated requests to `/mcp` may return **401** until a valid API key is sent— that is expected.
+
 ### You need exact tool details
 
 Use the shared docs resource `leadmagic://docs` or review:
