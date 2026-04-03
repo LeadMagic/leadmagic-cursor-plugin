@@ -2,6 +2,10 @@
 
 All notable changes to the LeadMagic Cursor plugin package are documented here.
 
+## 0.1.5
+
+- **Docs:** README clarifies MCP (Cursor) vs REST (OpenAPI), links [leadmagic-openapi](https://github.com/LeadMagic/leadmagic-openapi) and product docs; validator and CI require the OpenAPI repo URL in README.
+
 ## 0.1.4
 
 - **Auth:** Default `mcp.json` uses OAuth only (no headers); Cursor signs in with LeadMagic. README documents optional `x-leadmagic-key` + `${LEADMAGIC_API_KEY}` for API-key mode.

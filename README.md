@@ -2,9 +2,20 @@
 
 Official LeadMagic plugin for Cursor. It connects Cursor to LeadMagic's hosted MCP server so agents can run credit-aware enrichment—work emails, mobile, B2B profile-to-email, job-change signals, account research, competitors, technographics, people-by-role, and credits—without leaving the editor.
 
+**Repository:** [github.com/LeadMagic/leadmagic-cursor-plugin](https://github.com/LeadMagic/leadmagic-cursor-plugin)
+
 ## Overview
 
 This repository packages LeadMagic's hosted MCP integration in a Cursor-native format for marketplace distribution, local installation, and team use. The goal is straightforward: make LeadMagic's enrichment and research workflows available to Cursor agents with minimal setup and clear operational guidance.
+
+### MCP in Cursor vs REST / OpenAPI
+
+| You are building… | Start here |
+| --- | --- |
+| Cursor agents, chat, or IDE automation over LeadMagic | This plugin + hosted MCP at `https://mcp.leadmagic.io/mcp` (default **OAuth** in Cursor) |
+| Your own services, scripts, or non-MCP clients calling `https://api.leadmagic.io` | [LeadMagic OpenAPI](https://github.com/LeadMagic/leadmagic-openapi) (YAML/JSON snapshot, `llms.txt`, and `test-api` smoke tests) + [product API docs](https://leadmagic.io/docs) |
+
+The OpenAPI repository is the best place for **schema-level** detail and **direct HTTP** examples. This plugin repo is the source for **Cursor packaging** (skills, rules, `mcp.json`, validation). Keep terminology aligned: MCP tools wrap a **subset** of the broader REST surface (for example jobs and ads APIs are not exposed as MCP tools today).
 
 The package includes:
 
@@ -65,7 +76,7 @@ The hosted MCP surface supports:
 - `find_mobile_number`, `linkedin_profile_to_work_email`, `detect_job_change`
 - `research_account`, `list_company_competitors`, `get_company_technographics`, `find_people_by_role`
 
-The broader REST API includes more endpoints (jobs, ads, analytics, etc.); this plugin tracks the hosted MCP tool list above. See `leadmagic://docs` in Cursor for the live tool reference.
+The broader REST API includes more endpoints (jobs, ads, analytics, etc.); this plugin tracks the hosted MCP tool list above. For route names, request shapes, and credit tables against `https://api.leadmagic.io`, use the [OpenAPI snapshot](https://github.com/LeadMagic/leadmagic-openapi) and [leadmagic.io/docs](https://leadmagic.io/docs). Inside Cursor, `leadmagic://docs` is the live MCP tool reference.
 
 ## Quick Start
 
@@ -220,10 +231,12 @@ The validator checks this package against a vendored snapshot of Cursor's offici
 
 Use `SUBMISSION.md` for ready-to-paste marketplace form values, reviewer notes, and a final pre-submit checklist.
 
-## Companion Resources
+## Related repositories and docs
 
-- OpenAPI snapshot and schema docs: [LeadMagic OpenAPI](https://github.com/LeadMagic/leadmagic-openapi)
-- Product docs index: [leadmagic.io/docs/llms.txt](https://leadmagic.io/docs/llms.txt)
-- Website: [leadmagic.io](https://leadmagic.io)
-- Privacy: [leadmagic.io/privacy](https://leadmagic.io/privacy)
-- Terms: [leadmagic.io/legal/terms](https://leadmagic.io/legal/terms)
+- **OpenAPI snapshot (REST):** [github.com/LeadMagic/leadmagic-openapi](https://github.com/LeadMagic/leadmagic-openapi) — OpenAPI 3.1 YAML/JSON, LLM-oriented `llms.txt` / `llms-full.txt`, Spectral lint, and optional live `npm run test:api` smoke tests against `/v1/...`. Use it when integrating LeadMagic outside Cursor or when you need the full route map and field shapes.
+- **This plugin (MCP + Cursor):** [github.com/LeadMagic/leadmagic-cursor-plugin](https://github.com/LeadMagic/leadmagic-cursor-plugin) — marketplace-ready Cursor bundle; OAuth-default MCP config; skills and rules for agent behavior.
+- **Product docs:** [leadmagic.io/docs](https://leadmagic.io/docs) — authoritative API and MCP documentation.
+- **Docs index for LLMs:** [leadmagic.io/docs/llms.txt](https://leadmagic.io/docs/llms.txt)
+- **Website:** [leadmagic.io](https://leadmagic.io)
+- **Privacy:** [leadmagic.io/privacy](https://leadmagic.io/privacy)
+- **Terms:** [leadmagic.io/legal/terms](https://leadmagic.io/legal/terms)

@@ -168,6 +168,7 @@ try {
 	const readme = fs.readFileSync(readmePath, "utf8");
 	for (const expectedText of [
 		"https://mcp.leadmagic.io/mcp",
+		"https://github.com/LeadMagic/leadmagic-openapi",
 		"leadmagic://docs",
 		"LeadMagic MCP Tools",
 		"OAuth",
