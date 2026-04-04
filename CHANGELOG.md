@@ -2,6 +2,11 @@
 
 All notable changes to the LeadMagic Cursor plugin package are documented here.
 
+## 0.1.6
+
+- **Cursor plugin model:** Add `agents/leadmagic-enrichment.md` and `commands/` (`check-credits`, `research-company`, `validate-email`); wire `agents` and `commands` in `plugin.json` to match patterns used by plugins such as [encoredev/cursor-plugin](https://github.com/encoredev/cursor-plugin).
+- **Validation:** Assert agent/command markdown frontmatter; README links to [Cursor Plugins docs](https://cursor.com/docs/plugins).
+
 ## 0.1.5
 
 - **Docs:** README clarifies MCP (Cursor) vs REST (OpenAPI), links [leadmagic-openapi](https://github.com/LeadMagic/leadmagic-openapi) and product docs; validator and CI require the OpenAPI repo URL in README.

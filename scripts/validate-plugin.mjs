@@ -90,6 +90,14 @@ try {
 		"Plugin must expose the rules directory with an explicit relative path",
 	);
 	assert(
+		plugin.agents === "./agents/",
+		"Plugin must expose the agents directory with an explicit relative path",
+	);
+	assert(
+		plugin.commands === "./commands/",
+		"Plugin must expose the commands directory with an explicit relative path",
+	);
+	assert(
 		exists("schemas/plugin.schema.json"),
 		"Missing vendored Cursor plugin schema at schemas/plugin.schema.json",
 	);
@@ -163,12 +171,38 @@ try {
 		);
 	}
 
+	function assertMarkdownBundle(dirName, label) {
+		const dir = path.join(root, dirName);
+		assert(fs.existsSync(dir), `Missing ${dirName} directory`);
+		const mdFiles = fs
+			.readdirSync(dir)
+			.filter((n) => n.endsWith(".md"))
+			.map((n) => path.join(dir, n));
+		assert(mdFiles.length > 0, `${dirName} must include at least one .md file`);
+		for (const file of mdFiles) {
+			const fm = frontmatter(fs.readFileSync(file, "utf8"));
+			assert(fm, `Missing frontmatter in ${path.relative(root, file)}`);
+			assert(
+				/\bname:\s*.+/m.test(fm),
+				`Missing ${label} name in ${path.relative(root, file)}`,
+			);
+			assert(
+				/\bdescription:\s*.+/m.test(fm),
+				`Missing ${label} description in ${path.relative(root, file)}`,
+			);
+		}
+	}
+
+	assertMarkdownBundle("agents", "agent");
+	assertMarkdownBundle("commands", "command");
+
 	const readmePath = path.join(root, "README.md");
 	assert(fs.existsSync(readmePath), "Missing README.md");
 	const readme = fs.readFileSync(readmePath, "utf8");
 	for (const expectedText of [
 		"https://mcp.leadmagic.io/mcp",
 		"https://github.com/LeadMagic/leadmagic-openapi",
+		"https://cursor.com/docs/plugins",
 		"leadmagic://docs",
 		"LeadMagic MCP Tools",
 		"OAuth",

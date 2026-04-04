@@ -1,7 +1,7 @@
 {
 	"name": "leadmagic-cursor-plugin",
 	"private": true,
-	"version": "0.1.5",
+	"version": "0.1.6",
 	"description": "Submission package for the LeadMagic Cursor plugin",
 	"license": "MIT",
 	"scripts": {

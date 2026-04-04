@@ -15,7 +15,7 @@ This repository packages LeadMagic's hosted MCP integration in a Cursor-native f
 | Cursor agents, chat, or IDE automation over LeadMagic | This plugin + hosted MCP at `https://mcp.leadmagic.io/mcp` (default **OAuth** in Cursor) |
 | Your own services, scripts, or non-MCP clients calling `https://api.leadmagic.io` | [LeadMagic OpenAPI](https://github.com/LeadMagic/leadmagic-openapi) (YAML/JSON snapshot, `llms.txt`, and `test-api` smoke tests) + [product API docs](https://leadmagic.io/docs) |
 
-The OpenAPI repository is the best place for **schema-level** detail and **direct HTTP** examples. This plugin repo is the source for **Cursor packaging** (skills, rules, `mcp.json`, validation). Keep terminology aligned: MCP tools wrap a **subset** of the broader REST surface (for example jobs and ads APIs are not exposed as MCP tools today).
+The OpenAPI repository is the best place for **schema-level** detail and **direct HTTP** examples. This plugin repo is the source for **Cursor packaging** (skills, rules, agents, commands, `mcp.json`, validation). Keep terminology aligned: MCP tools wrap a **subset** of the broader REST surface (for example jobs and ads APIs are not exposed as MCP tools today).
 
 The package includes:
 
@@ -30,6 +30,12 @@ The package includes:
   - prospect list QA
   - signal research
 - One default rule that nudges Cursor toward efficient, low-duplication LeadMagic usage
+- One **agent** (`leadmagic-enrichment`): a dedicated enrichment/research persona wired to MCP best practices
+- **Commands** (playbooks): check credits, research a company, validate an email—usable from the Cursor commands palette like other marketplace plugins
+
+### How this compares to other Cursor plugins
+
+Well-structured plugins (for example [Encore’s Cursor plugin](https://github.com/encoredev/cursor-plugin), which bundles rules, skills, MCP, an agent, and commands) follow the same **Cursor plugin model** described in the official docs: [Plugins](https://cursor.com/docs/plugins) and the [plugin-template](https://github.com/cursor/plugin-template) monorepo. LeadMagic matches that shape where it makes sense for **hosted SaaS enrichment**: we ship **HTTP/streamable MCP** to `https://mcp.leadmagic.io/mcp` (OAuth by default) instead of launching a **local stdio** MCP process—appropriate because LeadMagic runs as a hosted API. Optional **hooks** or local scripts are not included until there is a clear, supportable automation story for all users.
 
 ## Why Use It
 
@@ -198,6 +204,8 @@ Use the shared docs resource `leadmagic://docs` or review:
 .cursor-plugin/plugin.json
 .github/pull_request_template.md
 .github/workflows/validate-plugin.yml
+agents/*.md
+commands/*.md
 assets/logo.svg
 mcp.json
 package-lock.json

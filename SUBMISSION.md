@@ -20,7 +20,7 @@ plugins@leadmagic.io
 https://raw.githubusercontent.com/LeadMagic/leadmagic-cursor-plugin/main/assets/logo.svg
 
 **Description**
-Official LeadMagic plugin for Cursor. Gives agents direct access to LeadMagic's hosted MCP surface for work email validation and discovery, mobile lookup, LinkedIn profile to work email, job-change detection, account research, competitor and technographics lists, people-by-role search, and credit balance—authenticated by default with OAuth in Cursor, with an optional API-key path for advanced setups.
+Official LeadMagic plugin for Cursor. Gives agents direct access to LeadMagic's hosted MCP surface for work email validation and discovery, mobile lookup, LinkedIn profile to work email, job-change detection, account research, competitor and technographics lists, people-by-role search, and credit balance—authenticated by default with OAuth in Cursor, with an optional API-key path for advanced setups. Includes skills, rules, a dedicated enrichment agent, and command playbooks aligned with Cursor's plugin model.
 
 **GitHub repository**
 https://github.com/LeadMagic/leadmagic-cursor-plugin
@@ -42,7 +42,7 @@ Before submitting:
 
 ## Suggested reviewer note
 
-LeadMagic is an API-first B2B enrichment platform for AI agents and GTM engineers. This plugin packages our hosted MCP integration (10 tools, `leadmagic://docs`, two prompts) into a Cursor-native repo with focused skills, safe default guidance, and OAuth-first MCP auth (optional `LEADMAGIC_API_KEY` header for environments that need it). Tool calls are processed per LeadMagic privacy and terms at leadmagic.io.
+LeadMagic is an API-first B2B enrichment platform for AI agents and GTM engineers. This plugin packages our hosted MCP integration (10 tools, `leadmagic://docs`, two prompts) into a Cursor-native repo with focused skills, a dedicated enrichment agent, command playbooks, safe default guidance, and OAuth-first MCP auth (optional `LEADMAGIC_API_KEY` header for environments that need it). Tool calls are processed per LeadMagic privacy and terms at leadmagic.io.
 
 ## Short marketplace blurb alternatives
 

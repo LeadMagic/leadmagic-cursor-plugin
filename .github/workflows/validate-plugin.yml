@@ -15,6 +15,8 @@ on:
       - "README.md"
       - "SUBMISSION.md"
       - "rules/**"
+      - "agents/**"
+      - "commands/**"
       - "schemas/**"
       - "scripts/**"
       - "CHANGELOG.md"
@@ -44,4 +46,4 @@ jobs:
 
       - name: Check README references
         run: |
-          node -e "const fs=require('node:fs');const text=fs.readFileSync('README.md','utf8');for(const value of ['https://mcp.leadmagic.io/mcp','https://github.com/LeadMagic/leadmagic-openapi','leadmagic://docs','LeadMagic MCP Tools','OAuth']){if(!text.includes(value)){throw new Error('README.md is missing required reference: '+value)}}"
+          node -e "const fs=require('node:fs');const text=fs.readFileSync('README.md','utf8');for(const value of ['https://mcp.leadmagic.io/mcp','https://github.com/LeadMagic/leadmagic-openapi','https://cursor.com/docs/plugins','leadmagic://docs','LeadMagic MCP Tools','OAuth']){if(!text.includes(value)){throw new Error('README.md is missing required reference: '+value)}}"

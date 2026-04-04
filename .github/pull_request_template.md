@@ -22,6 +22,7 @@
 
 - [ ] `mcp.json` still points to `https://mcp.leadmagic.io/mcp`
 - [ ] Default `mcp.json` stays OAuth-only (no headers); API-key fallback documented in README if needed
+- [ ] New or edited `agents/*.md` and `commands/*.md` include YAML frontmatter (`name`, `description`)
 - [ ] Repo copy does not imply MCP support for tools outside the current MCP surface
 - [ ] README and submission copy stay consistent
 
