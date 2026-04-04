@@ -2,6 +2,11 @@
 
 All notable changes to the LeadMagic Cursor plugin package are documented here.
 
+## 0.1.8
+
+- **CI/CD:** Concurrency to cancel superseded runs; job `timeout-minutes`; `workflow_dispatch`; npm cache via `actions/setup-node`; pin `actions/checkout` and `actions/setup-node` to full SHAs (`v5` tags); drop duplicate README string check (already enforced by `npm run validate`). Dependabot weekly updates for **GitHub Actions** plus npm commit-message prefixes.
+- **Tooling:** `.node-version` and `package.json` `engines` for Node 22+.
+
 ## 0.1.7
 
 - **Security:** Add [SECURITY.md](SECURITY.md); expand `.gitignore` for `.env*`; CI `permissions: contents: read`, `npm audit --audit-level=high`, and [Dependabot](.github/dependabot.yml) for npm.

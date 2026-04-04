@@ -113,6 +113,7 @@ try {
 		"Missing SECURITY.md (vulnerability disclosure and hardening)",
 	);
 	assert(exists("LICENSE"), "Missing LICENSE");
+	assert(exists(".node-version"), "Missing .node-version (CI / local Node alignment)");
 
 	assert(exists("mcp.json"), "Missing mcp.json");
 	const mcp = readJson("mcp.json");

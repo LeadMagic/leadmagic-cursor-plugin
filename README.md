@@ -71,6 +71,8 @@ For API-key mode (no OAuth), set `LEADMAGIC_API_KEY` where Cursor can read it an
 
 ## Developing this repository
 
+CI and local tooling target **Node.js 22** (see `.node-version` and `package.json` `engines`).
+
 ```bash
 npm ci
 npm run check
@@ -110,6 +112,7 @@ scripts/verify-mcp-health.mjs
 schemas/plugin.schema.json
 .github/workflows/validate-plugin.yml
 .github/dependabot.yml
+.node-version
 SECURITY.md
 LICENSE
 README.md
