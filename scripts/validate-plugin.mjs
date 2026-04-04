@@ -108,7 +108,10 @@ try {
 		"Single-plugin repositories should not include .cursor-plugin/marketplace.json; reserve it for multi-plugin marketplace repos.",
 	);
 
-	assert(exists("SECURITY.md"), "Missing SECURITY.md (vulnerability disclosure and hardening)");
+	assert(
+		exists("SECURITY.md"),
+		"Missing SECURITY.md (vulnerability disclosure and hardening)",
+	);
 	assert(exists("LICENSE"), "Missing LICENSE");
 
 	assert(exists("mcp.json"), "Missing mcp.json");
