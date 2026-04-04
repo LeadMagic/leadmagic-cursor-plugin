@@ -39,6 +39,7 @@ Before submitting:
 4. Run `npm ci`.
 5. Run `npm run check` (or `npm run validate` if you are offline).
 6. If you want to test the package in Cursor first, run `npm run install:local` and reload Cursor with `Developer: Reload Window`.
+7. Security disclosure policy: `SECURITY.md` (email plugins@leadmagic.io for vulnerabilities).
 
 ## Suggested reviewer note
 

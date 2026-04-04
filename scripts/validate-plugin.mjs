@@ -108,6 +108,9 @@ try {
 		"Single-plugin repositories should not include .cursor-plugin/marketplace.json; reserve it for multi-plugin marketplace repos.",
 	);
 
+	assert(exists("SECURITY.md"), "Missing SECURITY.md (vulnerability disclosure and hardening)");
+	assert(exists("LICENSE"), "Missing LICENSE");
+
 	assert(exists("mcp.json"), "Missing mcp.json");
 	const mcp = readJson("mcp.json");
 	assert(
@@ -203,9 +206,11 @@ try {
 		"https://mcp.leadmagic.io/mcp",
 		"https://github.com/LeadMagic/leadmagic-openapi",
 		"https://cursor.com/docs/plugins",
+		"[SECURITY.md](SECURITY.md)",
 		"leadmagic://docs",
 		"LeadMagic MCP Tools",
 		"OAuth",
+		"[LICENSE](LICENSE)",
 	]) {
 		assert(
 			readme.includes(expectedText),

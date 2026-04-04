@@ -2,6 +2,11 @@
 
 All notable changes to the LeadMagic Cursor plugin package are documented here.
 
+## 0.1.7
+
+- **Security:** Add [SECURITY.md](SECURITY.md); expand `.gitignore` for `.env*`; CI `permissions: contents: read`, `npm audit --audit-level=high`, and [Dependabot](.github/dependabot.yml) for npm.
+- **Docs:** README restructured (security first, tables, shorter flow); link `LICENSE` and security policy.
+
 ## 0.1.6
 
 - **Cursor plugin model:** Add `agents/leadmagic-enrichment.md` and `commands/` (`check-credits`, `research-company`, `validate-email`); wire `agents` and `commands` in `plugin.json` to match patterns used by plugins such as [encoredev/cursor-plugin](https://github.com/encoredev/cursor-plugin).

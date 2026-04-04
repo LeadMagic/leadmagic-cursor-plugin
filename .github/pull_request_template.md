@@ -16,7 +16,7 @@
 
 - [ ] Ran `npm run validate` (or `npm run check` to include hosted health)
 - [ ] Checked that copy matches the current hosted MCP surface
-- [ ] Verified no secrets or hardcoded API keys were added
+- [ ] Verified no secrets or hardcoded API keys were added (no `.env` with real keys; see [SECURITY.md](../SECURITY.md))
 
 ## Alignment Checklist
 
