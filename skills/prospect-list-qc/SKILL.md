@@ -12,7 +12,7 @@ Use when the user has many prospects and wants the highest-confidence sequence f
 2. Prioritize validation before expensive enrichment whenever emails already exist.
 3. Separate records into buckets:
    - already have work email -> `validate_work_email`,
-   - have B2B profile URL -> `linkedin_profile_to_work_email` then validate if needed,
+   - have B2B profile URL -> `linkedin_profile_to_work_email` (returns pre-validated emails — no re-validation),
    - have email or profile + need phone -> `find_mobile_number`,
    - have name + company only -> `find_work_email`,
    - company-only records -> `research_account`; add `list_company_competitors` or `get_company_technographics` when the list needs those angles.
