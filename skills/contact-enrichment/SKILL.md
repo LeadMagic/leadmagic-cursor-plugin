@@ -10,7 +10,7 @@ Use when the user needs a validated work email or wants LeadMagic to find the li
 ## Workflow
 1. Start from the strongest identifier the user already has.
    - Existing work email: validate it first with `validate_work_email`.
-   - B2B profile URL (e.g. LinkedIn): use `linkedin_profile_to_work_email`; then validate if needed.
+   - B2B profile URL: use `linkedin_profile_to_work_email` — the email it returns is already validated; never re-validate it.
    - Work email or profile URL + wants phone: `find_mobile_number`.
    - Full name + company or domain: use `find_work_email`.
 2. Prefer the cheapest path that can answer the question.
