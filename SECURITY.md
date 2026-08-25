@@ -18,13 +18,13 @@ Email **plugins@leadmagic.io** with:
 
 Please do **not** open a public issue for undisclosed security vulnerabilities.
 
-We will acknowledge receipt and coordinate disclosure. For general product security questions, see [leadmagic.io](https://leadmagic.io) and [Support](https://leadmagic.io/docs/support).
+We will acknowledge receipt and coordinate disclosure. For general product security questions, see [leadmagic.io](https://leadmagic.io?utm_source=github&utm_medium=readme&utm_campaign=leadmagic-cursor-plugin) and [Support](https://leadmagic.io/docs/support?utm_source=github&utm_medium=readme&utm_campaign=leadmagic-cursor-plugin).
 
 ## Hardening checklist for users and contributors
 
 - **Never** commit API keys, OAuth tokens, or `.env` files with secrets.
 - Prefer **OAuth** for MCP; use `LEADMAGIC_API_KEY` only in an environment Cursor can read, not in tracked config (except the documented `${LEADMAGIC_API_KEY}` placeholder in optional user overrides).
-- Treat enrichment inputs (emails, names, domains, profile URLs) as **sensitive data**; follow your org’s data-handling policy. See [Privacy](https://leadmagic.io/privacy) and [Terms](https://leadmagic.io/legal/terms).
+- Treat enrichment inputs (emails, names, domains, profile URLs) as **sensitive data**; follow your org’s data-handling policy. See [Privacy](https://leadmagic.io/privacy?utm_source=github&utm_medium=readme&utm_campaign=leadmagic-cursor-plugin) and [Terms](https://leadmagic.io/legal/terms?utm_source=github&utm_medium=readme&utm_campaign=leadmagic-cursor-plugin).
 - Run **`npm ci`** (not plain `npm install`) in CI and for reproducible installs; review `npm audit` after dependency changes.
 
 ## Dependency hygiene

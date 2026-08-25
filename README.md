@@ -2,7 +2,7 @@
 
 Official LeadMagic plugin for Cursor. Connect Cursor to LeadMagic's hosted MCP for credit-aware B2B enrichment and GTM research: work email validation and discovery, mobile lookup, LinkedIn profile to work email, job-change signals, account research, competitors, technographics, people by role, and credit balance.
 
-[GitHub repository](https://github.com/LeadMagic/leadmagic-cursor-plugin) | [LeadMagic docs](https://leadmagic.io/docs/mcp/setup) | [LeadMagic](https://leadmagic.io)
+[GitHub repository](https://github.com/LeadMagic/leadmagic-cursor-plugin) | [LeadMagic docs](https://leadmagic.io/docs/mcp/setup?utm_source=github&utm_medium=readme&utm_campaign=leadmagic-cursor-plugin) | [LeadMagic](https://leadmagic.io?utm_source=github&utm_medium=readme&utm_campaign=leadmagic-cursor-plugin)
 
 ## What this plugin gives you
 
@@ -136,9 +136,9 @@ On macOS, if Cursor cannot see `LEADMAGIC_API_KEY`, launch Cursor from a shell t
 ## Docs and product references
 
 - In Cursor: `leadmagic://docs`
-- Setup guide: [LeadMagic MCP Setup](https://leadmagic.io/docs/mcp/setup)
-- Tool reference: [LeadMagic MCP Tools](https://leadmagic.io/docs/mcp/tools)
-- Troubleshooting: [LeadMagic MCP Troubleshooting](https://leadmagic.io/docs/mcp/troubleshooting)
+- Setup guide: [LeadMagic MCP Setup](https://leadmagic.io/docs/mcp/setup?utm_source=github&utm_medium=readme&utm_campaign=leadmagic-cursor-plugin)
+- Tool reference: [LeadMagic MCP Tools](https://leadmagic.io/docs/mcp/tools?utm_source=github&utm_medium=readme&utm_campaign=leadmagic-cursor-plugin)
+- Troubleshooting: [LeadMagic MCP Troubleshooting](https://leadmagic.io/docs/mcp/troubleshooting?utm_source=github&utm_medium=readme&utm_campaign=leadmagic-cursor-plugin)
 - REST and schemas: [LeadMagic OpenAPI](https://github.com/LeadMagic/leadmagic-openapi)
 
 For direct `https://api.leadmagic.io` integration, OpenAPI schemas, or REST smoke tests, use the OpenAPI repository and product docs. The Cursor plugin exposes the hosted MCP surface, which is a subset of the full REST platform.
@@ -147,7 +147,7 @@ For direct `https://api.leadmagic.io` integration, OpenAPI schemas, or REST smok
 
 - Tool calls send the inputs you provide, such as emails, names, company domains, or profile URLs, to LeadMagic's hosted service.
 - Never commit secrets, API keys, tokens, or `.env` files.
-- Review [Privacy](https://leadmagic.io/privacy), [Terms](https://leadmagic.io/legal/terms), [Support](https://leadmagic.io/docs/support), and [SECURITY.md](SECURITY.md).
+- Review [Privacy](https://leadmagic.io/privacy?utm_source=github&utm_medium=readme&utm_campaign=leadmagic-cursor-plugin), [Terms](https://leadmagic.io/legal/terms?utm_source=github&utm_medium=readme&utm_campaign=leadmagic-cursor-plugin), [Support](https://leadmagic.io/docs/support?utm_source=github&utm_medium=readme&utm_campaign=leadmagic-cursor-plugin), and [SECURITY.md](SECURITY.md).
 
 ## Develop this repository
 
