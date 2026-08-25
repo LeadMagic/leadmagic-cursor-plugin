@@ -12,7 +12,7 @@ Use when the user wants evidence that an account is relevant now and needs a con
 2. Use `research_account` to collect the strongest current account context LeadMagic can provide through MCP.
 3. Synthesize the results into GTM implications, not just raw data.
 4. Highlight uncertainty when signals are partial or the hosted MCP surface does not expose the exact field the user wants.
-5. Stay within the hosted MCP tools. Competitors and technographics are available via `list_company_competitors` and `get_company_technographics`. Job postings and ad intelligence are not in MCP—point to the REST docs if the user needs those.
+5. Stay within the hosted MCP tools. Competitors and technographics are available via `list_company_competitors` and `get_company_technographics`. Job postings are in MCP too (`find_jobs` / `search_jobs`, with free `resolve_job_search_filters`), as is ad intelligence (`search_google_ads`, `search_meta_ads`, `search_b2b_ads`).
 
 ## Output
 Return:

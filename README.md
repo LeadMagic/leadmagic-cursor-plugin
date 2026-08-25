@@ -8,11 +8,13 @@ Official LeadMagic plugin for Cursor. Connect Cursor to LeadMagic's hosted MCP f
 
 - A hosted LeadMagic MCP endpoint at `https://mcp.leadmagic.io/mcp`
 - OAuth sign-in in Cursor by default
-- 10 LeadMagic MCP tools for contact and account workflows
+- 35+ LeadMagic MCP tools: people/company/jobs search, enrichment, ads research, bulk, and credits
 - Cursor-native packaging: rules, skills, commands, and a dedicated enrichment agent
 - In-editor docs via `leadmagic://docs`
 
 This repository packages the Cursor plugin. It does not run a local MCP server. The MCP server is hosted by LeadMagic.
+
+> **Unlimited search on Professional & Ultimate plans:** People, Company, and Jobs Search are credit-free with no volume cap — rate-limited only (5 req/s Professional, 10 req/s Ultimate). The `market-search` skill teaches the agent to use that properly, including cursor pagination.
 
 It follows Cursor's public plugin model documented at [https://cursor.com/docs/plugins](https://cursor.com/docs/plugins).
 
@@ -22,9 +24,9 @@ It follows Cursor's public plugin model documented at [https://cursor.com/docs/p
 | --- | --- |
 | MCP server | Hosted HTTP MCP at `https://mcp.leadmagic.io/mcp` |
 | Authentication | OAuth in Cursor by default; optional API-key mode |
-| Tools | `check_credit_balance`, `validate_work_email`, `find_work_email`, `find_mobile_number`, `linkedin_profile_to_work_email`, `detect_job_change`, `research_account`, `list_company_competitors`, `get_company_technographics`, `find_people_by_role` |
+| Tools | Search: `search_people`, `search_companies`, `find_jobs` / `search_jobs` · Enrichment: `enrich_contact`, `validate_work_email`, `find_work_email`, `find_mobile_number`, `linkedin_profile_to_work_email`, `find_people_by_role` · Account: `research_account`, `account_intel`, `list_company_competitors`, `get_company_technographics`, `detect_job_change` · Ads, bulk, and free helpers (`check_credit_balance`, `preview_cost`) |
 | Cursor docs | Resource `leadmagic://docs`; prompts `account_research` and `contact_lookup` |
-| Packaged assets | 1 rule, 4 skills, 1 agent, 3 commands |
+| Packaged assets | 1 rule, 5 skills, 1 agent, 3 commands |
 
 ## Install in Cursor
 
