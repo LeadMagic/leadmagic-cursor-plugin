@@ -29,7 +29,9 @@ on:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  # GitHub never re-creates a cancelled run, so a superseded main commit would be
+  # left with no result. Only PR runs are cancelled.
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 defaults:
   run:
