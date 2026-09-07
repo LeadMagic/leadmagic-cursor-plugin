@@ -52,6 +52,10 @@ try {
 		"Missing .cursor-plugin/plugin.json",
 	);
 	const plugin = readJson(".cursor-plugin/plugin.json");
+	const pkg = readJson("package.json");
+	const lock = readJson("package-lock.json");
+	assert(plugin.version === pkg.version && pkg.version === lock.version && pkg.version === lock.packages[""].version, "Plugin, package and lockfile versions must match");
+	assert(plugin.logo === "assets/logo.svg", "Plugin must use the bundled LeadMagic logo");
 	assert(
 		validatePlugin(plugin),
 		`plugin.json must satisfy Cursor's official plugin schema: ${formatAjvErrors(validatePlugin.errors)}`,
@@ -120,6 +124,9 @@ try {
 
 	assert(exists("mcp.json"), "Missing mcp.json");
 	const mcp = readJson("mcp.json");
+	assert(JSON.stringify(Object.keys(mcp)) === '["mcpServers"]', "Unexpected MCP configuration fields");
+	assert(mcp.mcpServers && JSON.stringify(Object.keys(mcp.mcpServers)) === '["leadmagic"]', "Only the LeadMagic server may be bundled");
+	assert(mcp.mcpServers.leadmagic && Object.keys(mcp.mcpServers.leadmagic).sort().join(",") === "type,url", "Hosted MCP config must contain only type and url; no credentials or commands");
 	assert(
 		typeof mcp.mcpServers === "object" &&
 			Object.keys(mcp.mcpServers).length > 0,
@@ -144,7 +151,7 @@ try {
 			: [];
 	assert(
 		headerKeys.length === 0,
-		"leadmagic MCP default must omit headers so Cursor uses OAuth sign-in with LeadMagic (see README for API-key fallback)",
+		"leadmagic MCP default must omit headers so Cursor uses OAuth sign-in with LeadMagic",
 	);
 
 	const skillsRoot = path.join(root, "skills");

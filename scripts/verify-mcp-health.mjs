@@ -1,13 +1,11 @@
 #!/usr/bin/env node
-/**
- * Optional smoke check: hosted LeadMagic MCP load balancer / health.
- * Does not authenticate to /mcp (OAuth or API key happens in Cursor).
- */
+// Public liveness only; authenticated MCP access is verified in Cursor via OAuth.
 const healthUrl = "https://mcp.leadmagic.io/health";
-
-const res = await fetch(healthUrl, { redirect: "error", signal: AbortSignal.timeout(10000) });
-if (!res.ok) {
-	console.error(`Expected 2xx from ${healthUrl}, got ${res.status}`);
-	process.exit(1);
+try {
+  const res = await fetch(healthUrl, { redirect: "error", signal: AbortSignal.timeout(10000) });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  console.log(`OK: ${healthUrl} -> ${res.status}`);
+} catch (error) {
+  console.error(`Hosted health check failed (${error.name === "TimeoutError" ? "10-second timeout" : error.message}). Check service availability and network access.`);
+  process.exitCode = 1;
 }
-console.log(`OK: ${healthUrl} -> ${res.status}`);

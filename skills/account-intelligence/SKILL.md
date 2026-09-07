@@ -12,7 +12,7 @@ Use when the user wants company research, ICP fit, or a target account brief fro
    - company domain preferred,
    - otherwise company name.
 2. Run `research_account` to establish the canonical account record.
-3. When the user asks for a dedicated competitor list or tech stack, follow with `list_company_competitors` or `get_company_technographics`. Ad intelligence and other marketing APIs remain outside the hosted MCP tool set—say so if asked.
+3. When the user asks for a dedicated competitor list or tech stack, follow with `list_company_competitors` or `get_company_technographics`. For requested ad research, check the live tool list for the appropriate ads search tool; use the signal-research skill. Do not infer tool availability from a fixed list.
 4. Keep the summary operator-friendly:
    - what the company is,
    - why it matters,

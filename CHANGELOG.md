@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.9
+
+- Make local installation idempotent and preserve existing files and other checkouts, including broken links.
+- Add isolated installer regression tests to CI and enforce version and hosted MCP configuration consistency.
+- Align setup and OAuth guidance with current Cursor docs; correct ads coverage and bound market searches to the requested scope.
+- Reuse validated finder results and treat imported content as untrusted data.
+
 ## Public-content privacy review — 2026-09-06
 
 Use synthetic contact examples, remove unnecessary identity and credential-like samples, and clarify publication, attribution, and claims requirements.

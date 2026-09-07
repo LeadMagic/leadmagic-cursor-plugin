@@ -8,7 +8,7 @@ Official LeadMagic plugin for Cursor. Connect Cursor to LeadMagic's hosted MCP f
 
 ## Current integration contract
 
-Reviewed against [LeadMagic's public documentation](https://leadmagic.io/docs?utm_source=github&utm_medium=readme&utm_campaign=leadmagic-cursor-plugin&utm_content=readme-current-integration-contract) on 2026-09-06. REST uses `https://api.leadmagic.io` and `X-API-Key`; hosted MCP uses `https://mcp.leadmagic.io/mcp` with OAuth; lm-tui uses `lm login`. Keep credentials and customer data out of committed examples.
+Reviewed against [LeadMagic's public documentation](https://leadmagic.io/docs?utm_source=github&utm_medium=readme&utm_campaign=leadmagic-cursor-plugin&utm_content=readme-current-integration-contract) on 2026-09-07. REST uses `https://api.leadmagic.io` and `X-API-Key`; hosted MCP uses `https://mcp.leadmagic.io/mcp` with OAuth; lm-tui uses `lm login`. Keep credentials and customer data out of committed examples.
 
 Email Finder returns validated work emails. Use Email Validation for externally sourced addresses. Check the [current pricing and credit rules](https://leadmagic.io/docs/v1/credits?utm_source=github&utm_medium=readme&utm_campaign=leadmagic-cursor-plugin&utm_content=readme-current-integration-contract) before paid work; costs are endpoint- and plan-dependent. API-only integrations must not send app-only `preview` options.
 
@@ -43,7 +43,7 @@ Choose the path that fits how you want to use the plugin.
 
 ### Option 1: Team marketplace import
 
-In Cursor, go to `Dashboard -> Settings -> Plugins -> Team Marketplaces -> Import` and use:
+On Cursor Teams or Enterprise, open `Dashboard -> Plugins -> Team Marketplaces -> Add Marketplace -> Import from Repo`, then review with `Add to Marketplace`. Use:
 
 ```text
 https://github.com/LeadMagic/leadmagic-cursor-plugin
@@ -58,7 +58,9 @@ npm ci
 npm run install:local
 ```
 
-Then reload Cursor with `Developer: Reload Window`.
+Then reload Cursor with `Developer: Reload Window` and open **Customize** to confirm the MCP server, rule, skills, agent, and commands. Local plugin imports must be allowed by your team. A marketplace installation with the same name takes precedence over the local copy.
+
+The installer links this checkout at `~/.cursor/plugins/local/leadmagic`. Repeated installs are safe; existing files, directories, and links owned by another checkout are preserved. Remove another checkout's link explicitly before switching. `npm run uninstall:local` removes only this checkout's link. Keep the checkout in place while using the local plugin.
 
 ### Option 3: Cursor marketplace
 
@@ -151,12 +153,16 @@ npm run check
 `npm run check` runs:
 
 - `npm run validate` for schema and package assertions
+- `npm test` for isolated installer regression tests
 - `npm run verify:health` for `GET https://mcp.leadmagic.io/health`
+
+The health probe checks public service availability; it does not test OAuth or authenticated enrichment. After connecting in Cursor, use the free credit-balance command to verify your account connection. The usage rule is scoped to relevant tasks with Agent Decides.
 
 If you are offline, run:
 
 ```bash
 npm run validate
+npm test
 ```
 
 Useful local commands:
