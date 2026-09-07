@@ -10,6 +10,7 @@ paths = subprocess.check_output(
     ["git", "ls-files", "--cached", "--others", "--exclude-standard", "-z"], cwd=root
 ).decode().split("\0")
 rules = {
+    "npm-token": re.compile(r"\bnpm_[A-Za-z0-9]{30,}\b"),
     "private-key": re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
     "leadmagic-key": re.compile(r"\blm_[A-Za-z0-9]{24,}\b"),
     "github-token": re.compile(r"\b(?:gh[pousr]_[A-Za-z0-9]{36,}|github_pat_[A-Za-z0-9_]{50,})\b"),

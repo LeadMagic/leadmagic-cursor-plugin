@@ -16,7 +16,7 @@ Email Finder returns validated work emails. Use Email Validation for externally 
 ## What this plugin gives you
 
 - A hosted LeadMagic MCP endpoint at `https://mcp.leadmagic.io/mcp`
-- OAuth sign-in in Cursor by default
+- OAuth sign-in in Cursor
 - Hosted LeadMagic MCP tools for people/company/jobs search, enrichment, ads research, bulk, and credits
 - Cursor-native packaging: rules, skills, commands, and a dedicated enrichment agent
 - In-editor docs via `leadmagic://docs`
@@ -88,9 +88,11 @@ Find people with the VP Marketing role at my target company
 
 ### Default: OAuth
 
-The bundled `mcp.json` uses OAuth by default. No API keys are stored in this repository.
+The bundled `mcp.json` uses OAuth. Hosted MCP does not accept static API-key headers. No API keys are stored in this repository.
 
 Use [the current hosted MCP authentication guide](https://leadmagic.io/docs/mcp/authentication?utm_source=github&utm_medium=readme&utm_campaign=leadmagic-cursor-plugin&utm_content=readme-authentication) if sign-in fails. REST API keys belong to REST integrations and are not required in this plugin configuration.
+
+For detailed recovery steps and the limits of automated verification, see [OAuth troubleshooting](docs/authentication.md).
 
 ## MCP configuration
 
@@ -124,6 +126,8 @@ Use [the current hosted MCP authentication guide](https://leadmagic.io/docs/mcp/
 - Command: `validate-email`
 - Agent: `leadmagic-enrichment`
 - Skills for contact enrichment, account intelligence, signal research, and prospect-list QA
+
+The plugin uses the committed official LeadMagic icon at `assets/logo.svg`. `npm run verify:logo` checks its reviewed fingerprint offline; updates require an explicit asset review.
 
 ## Skill selection and examples
 
@@ -166,11 +170,12 @@ npm run check
 
 `npm run check` runs:
 
-- `npm run validate` for schema and package assertions
+- `npm run validate` for schema, package, metadata, and approved-logo checks
 - `npm test` for isolated installer regression tests
 - `npm run verify:health` for `GET https://mcp.leadmagic.io/health`
+- `npm run verify:auth` for the unauthenticated MCP challenge and public OAuth discovery metadata
 
-The health probe checks public service availability; it does not test OAuth or authenticated enrichment. After connecting in Cursor, use the free credit-balance command to verify your account connection. The usage rule is scoped to relevant tasks with Agent Decides.
+The health probe checks public service availability. The auth probe verifies the Bearer challenge, advertised resource and issuer, PKCE S256, and public-client metadata using three credential-free GETs. Neither registers an OAuth client, signs in, or executes enrichment. After connecting in Cursor, use the free credit-balance command to verify your account connection. The usage rule is scoped to relevant tasks with Agent Decides.
 
 If you are offline, run:
 
