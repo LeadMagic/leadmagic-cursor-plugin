@@ -75,7 +75,7 @@ Check my LeadMagic credit balance.
 You can also try:
 
 ```text
-Validate this work email with LeadMagic: jane@company.com
+Validate this work email with LeadMagic: person@example.com
 Research the company acme.com with LeadMagic
 Find people by role at Stripe: VP Marketing
 ```
@@ -202,3 +202,7 @@ README.md
 ## License
 
 MIT. See [LICENSE](LICENSE).
+
+## Public examples and publication
+
+Examples are fictional unless an explicit public source is cited. See [PUBLICATION.md](PUBLICATION.md) for data, claims, attribution, and disclosure requirements.
