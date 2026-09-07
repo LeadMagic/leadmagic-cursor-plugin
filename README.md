@@ -1,5 +1,7 @@
 # LeadMagic Cursor Plugin: B2B Research and MCP Enrichment
 
+<img src="https://raw.githubusercontent.com/LeadMagic/leadmagic-cursor-plugin/main/assets/logo.svg" width="64" height="64" alt="LeadMagic logo">
+
 Official LeadMagic plugin for Cursor. Connect Cursor to LeadMagic's hosted MCP for credit-aware B2B enrichment and GTM research: work email validation and discovery, mobile lookup, LinkedIn profile to work email, job-change signals, account research, competitors, technographics, people by role, and credit balance.
 
 [LeadMagic B2B enrichment](https://leadmagic.io?utm_source=github&utm_medium=readme&utm_campaign=leadmagic-cursor-plugin&utm_content=readme-intro) · [MCP setup guide](https://leadmagic.io/docs/mcp/setup?utm_source=github&utm_medium=readme&utm_campaign=leadmagic-cursor-plugin&utm_content=readme-intro) · [Pricing and credits](https://leadmagic.io/pricing?utm_source=github&utm_medium=readme&utm_campaign=leadmagic-cursor-plugin&utm_content=readme-intro)
