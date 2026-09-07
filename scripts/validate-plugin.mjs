@@ -3,6 +3,7 @@ import Ajv from "ajv";
 import addFormats from "ajv-formats";
 import fs from "node:fs";
 import path from "node:path";
+import { validateFrontmatter } from "./validate-frontmatter.mjs";
 
 const root = process.cwd();
 const expectedSubmissionLogoUrl =
@@ -34,11 +35,6 @@ function formatAjvErrors(errors) {
 			return `${error.instancePath || "/"}: ${error.message}`;
 		})
 		.join("; ");
-}
-
-function frontmatter(text) {
-	const match = text.match(/^---\n([\s\S]*?)\n---/);
-	return match ? match[1] : null;
 }
 
 try {
@@ -163,16 +159,9 @@ try {
 			fs.existsSync(skillPath),
 			`Missing ${path.relative(root, skillPath)}`,
 		);
-		const fm = frontmatter(fs.readFileSync(skillPath, "utf8"));
-		assert(fm, `Missing frontmatter in ${path.relative(root, skillPath)}`);
-		assert(
-			/\bname:\s*.+/m.test(fm),
-			`Missing skill name in ${path.relative(root, skillPath)}`,
-		);
-		assert(
-			/\bdescription:\s*.+/m.test(fm),
-			`Missing skill description in ${path.relative(root, skillPath)}`,
-		);
+		validateFrontmatter(fs.readFileSync(skillPath, "utf8"), {
+			label: path.relative(root, skillPath), kind: "skill", expectedName: entry.name,
+		});
 	}
 
 	const rulesRoot = path.join(root, "rules");
@@ -180,12 +169,9 @@ try {
 	for (const name of fs.readdirSync(rulesRoot)) {
 		const file = path.join(rulesRoot, name);
 		if (fs.statSync(file).isDirectory()) continue;
-		const fm = frontmatter(fs.readFileSync(file, "utf8"));
-		assert(fm, `Missing frontmatter in ${path.relative(root, file)}`);
-		assert(
-			/\bdescription:\s*.+/m.test(fm),
-			`Missing rule description in ${path.relative(root, file)}`,
-		);
+		validateFrontmatter(fs.readFileSync(file, "utf8"), {
+			label: path.relative(root, file), kind: "rule",
+		});
 	}
 
 	function assertMarkdownBundle(dirName, label) {
@@ -197,16 +183,9 @@ try {
 			.map((n) => path.join(dir, n));
 		assert(mdFiles.length > 0, `${dirName} must include at least one .md file`);
 		for (const file of mdFiles) {
-			const fm = frontmatter(fs.readFileSync(file, "utf8"));
-			assert(fm, `Missing frontmatter in ${path.relative(root, file)}`);
-			assert(
-				/\bname:\s*.+/m.test(fm),
-				`Missing ${label} name in ${path.relative(root, file)}`,
-			);
-			assert(
-				/\bdescription:\s*.+/m.test(fm),
-				`Missing ${label} description in ${path.relative(root, file)}`,
-			);
+			validateFrontmatter(fs.readFileSync(file, "utf8"), {
+				label: path.relative(root, file), kind: label, expectedName: path.basename(file, ".md"),
+			});
 		}
 	}
 

@@ -125,6 +125,20 @@ Use [the current hosted MCP authentication guide](https://leadmagic.io/docs/mcp/
 - Agent: `leadmagic-enrichment`
 - Skills for contact enrichment, account intelligence, signal research, and prospect-list QA
 
+## Skill selection and examples
+
+The five skills intentionally remain available to Agent Decides for relevant enrichment requests. Invoke one explicitly with `/contact-enrichment`, `/account-intelligence`, `/signal-research`, `/market-search`, or `/prospect-list-qc`. Each has a focused trigger, example, and purple Custom Mode badge. Skills provide guidance; selecting one does not itself authenticate or execute a paid tool.
+
+| Request | Skill |
+| --- | --- |
+| Find one requested work email | `contact-enrichment` |
+| Summarize a company or its technology stack | `account-intelligence` |
+| Check hiring or advertising evidence | `signal-research` |
+| Build a bounded audience | `market-search` |
+| Deduplicate and validate a prospect batch | `prospect-list-qc` |
+
+Authoring follows [Cursor Agent Skills](https://cursor.com/docs/skills). See [the smoke-test checklist](docs/cursor-smoke-tests.md) for discovery and behavior checks in Cursor. Automated validation checks YAML syntax, metadata types, skill folder names, and nonempty instructions; it does not prove model behavior.
+
 ## Docs and product references
 
 - In Cursor: `leadmagic://docs`

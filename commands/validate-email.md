@@ -6,6 +6,6 @@ description: Validate a work email with LeadMagic MCP before sending or storing 
 # Validate a work email
 
 1. Obtain the **work email** the user wants checked.
-2. Run `validate_work_email` via MCP with that email.
+2. Reuse a fresh LeadMagic finder validation result if already available. Otherwise run `validate_work_email` via MCP with that email.
 3. Report the tool’s stated result and any fields returned (do not infer beyond the response).
-4. If validation is inconclusive or the user still needs an address, consider `find_work_email` only when they provide person + company context.
+4. If validation is inconclusive, report that outcome. Run `find_work_email` only if discovery is also requested and the required person and company inputs are available.

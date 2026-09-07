@@ -1,6 +1,8 @@
 ---
 name: market-search
-description: Build bounded people, company, and jobs audiences with LeadMagic MCP, account-aware pricing, and cursor pagination.
+description: Builds bounded people, company, and jobs audiences with LeadMagic MCP. Use for market mapping, target account lists, and audience searches with a row or budget limit.
+icon: book-open
+color: purple
 ---
 # Market search
 
@@ -14,6 +16,11 @@ Use for audience building, account lists, and job searches. Read the connected t
 4. Page within the requested row and budget limits, keeping the same filters. Use the cursor fields and page-size limits supported by that tool; do not mix cursor pagination with a nonzero offset.
 5. Stop at the requested count, exhausted results, missing or repeated next cursor, cancellation, or budget limit. Respect Retry-After on rate limits and bound retries. Deduplicate by stable identifiers.
 6. Enrich only selected contacts and channels requested by the user. Reuse freshly validated finder emails without another validation call.
+
+## Example
+
+Request: “Find up to 50 companies matching my ICP within the approved budget.”
+Route: resolve supported filters, preview cost where available, and paginate only until 50 unique companies or another stopping condition. Do not unlock contacts automatically.
 
 ## Output
 
