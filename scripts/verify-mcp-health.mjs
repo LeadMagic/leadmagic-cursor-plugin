@@ -5,7 +5,7 @@
  */
 const healthUrl = "https://mcp.leadmagic.io/health";
 
-const res = await fetch(healthUrl, { redirect: "follow" });
+const res = await fetch(healthUrl, { redirect: "error", signal: AbortSignal.timeout(10000) });
 if (!res.ok) {
 	console.error(`Expected 2xx from ${healthUrl}, got ${res.status}`);
 	process.exit(1);
