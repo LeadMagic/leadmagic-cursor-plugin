@@ -2,7 +2,7 @@
 
 ## Scope
 
-This repository is the **Cursor plugin package** for LeadMagic (rules, skills, agents, commands, and `mcp.json`). It does **not** ship application secrets: authentication is **OAuth in Cursor** by default, or an optional **API key** you supply via environment variables—never committed to git.
+This repository is the **Cursor plugin package** for LeadMagic (rules, skills, agents, commands, and `mcp.json`). It does **not** ship application secrets: authentication uses **OAuth in Cursor**. Never commit OAuth tokens or REST API keys.
 
 ## Supported versions
 

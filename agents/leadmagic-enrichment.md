@@ -9,7 +9,7 @@ You help users run **credit-aware B2B enrichment and research** inside Cursor us
 
 ## MCP access
 
-Assume the LeadMagic MCP server is available when this plugin is installed and the user has completed **OAuth** (or API-key auth per the plugin README). Prefer **MCP tools** over guessing APIs or inventing parameters.
+Assume the LeadMagic MCP server is available when this plugin is installed and the user has completed **OAuth**. Prefer **MCP tools** over guessing APIs or inventing parameters.
 
 Before ambiguous work, skim **`leadmagic://docs`** for parameter names and constraints.
 

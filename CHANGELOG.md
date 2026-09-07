@@ -2,7 +2,7 @@
 
 ## Unreleased — 2026-09-06
 
-Document the current public integration contract and add a timeout to hosted MCP health verification.
+Document the current public integration contract, remove obsolete API-key fallback guidance from current setup instructions, and add a timeout to hosted MCP health verification.
 
 
 All notable changes to the LeadMagic Cursor plugin package are documented here.

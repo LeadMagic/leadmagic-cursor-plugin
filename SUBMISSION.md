@@ -20,7 +20,7 @@ plugins@leadmagic.io
 https://raw.githubusercontent.com/LeadMagic/leadmagic-cursor-plugin/main/assets/logo.svg
 
 **Description**
-Official LeadMagic plugin for Cursor. Gives agents direct access to LeadMagic's hosted MCP surface for work email validation and discovery, mobile lookup, LinkedIn profile to work email, job-change detection, account research, competitor and technographics lists, people-by-role search, and credit balance—authenticated by default with OAuth in Cursor, with an optional API-key path for advanced setups. Includes skills, rules, a dedicated enrichment agent, and command playbooks aligned with Cursor's plugin model.
+Official LeadMagic plugin for Cursor. Gives agents direct access to LeadMagic's hosted MCP surface for work email validation and discovery, mobile lookup, LinkedIn profile to work email, job-change detection, account research, competitor and technographics lists, people-by-role search, and credit balance—authenticated with OAuth in Cursor. Includes skills, rules, a dedicated enrichment agent, and command playbooks aligned with Cursor's plugin model.
 
 **GitHub repository**
 https://github.com/LeadMagic/leadmagic-cursor-plugin
@@ -54,4 +54,4 @@ Official LeadMagic plugin for Cursor. Validate and find work emails, look up mob
 B2B enrichment for Cursor agents via LeadMagic's hosted MCP: emails, mobile, profiles, job changes, account intel, competitors, technographics, role search, and credit-aware usage.
 
 ### Option C
-Connect Cursor to LeadMagic for agent-native contact and account workflows backed by LeadMagic's hosted MCP and OAuth sign-in (API key optional).
+Connect Cursor to LeadMagic for agent-native contact and account workflows backed by LeadMagic's hosted MCP and OAuth sign-in.

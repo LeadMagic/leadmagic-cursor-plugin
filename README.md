@@ -30,7 +30,7 @@ It follows Cursor's public plugin model documented at [https://cursor.com/docs/p
 | Area | Included |
 | --- | --- |
 | MCP server | Hosted HTTP MCP at `https://mcp.leadmagic.io/mcp` |
-| Authentication | OAuth in Cursor by default; optional API-key mode |
+| Authentication | OAuth sign-in in Cursor |
 | Tools | Search: `search_people`, `search_companies`, `find_jobs` / `search_jobs` · Enrichment: `enrich_contact`, `validate_work_email`, `find_work_email`, `find_mobile_number`, `linkedin_profile_to_work_email`, `find_people_by_role` · Account: `research_account`, `account_intel`, `list_company_competitors`, `get_company_technographics`, `detect_job_change` · Ads, bulk, and free helpers (`check_credit_balance`, `preview_cost`) |
 | Cursor docs | Resource `leadmagic://docs`; prompts `account_research` and `contact_lookup` |
 | Packaged assets | 1 rule, 5 skills, 1 agent, 3 commands |
@@ -86,25 +86,7 @@ Find people by role at Stripe: VP Marketing
 
 The bundled `mcp.json` uses OAuth by default. No API keys are stored in this repository.
 
-### Optional: API-key mode
-
-If you need header-based authentication instead of OAuth, set `LEADMAGIC_API_KEY` in an environment visible to Cursor and merge this into your MCP config:
-
-```json
-{
-  "mcpServers": {
-    "leadmagic": {
-      "type": "http",
-      "url": "https://mcp.leadmagic.io/mcp",
-      "headers": {
-        "x-leadmagic-key": "${LEADMAGIC_API_KEY}"
-      }
-    }
-  }
-}
-```
-
-On macOS, if Cursor cannot see `LEADMAGIC_API_KEY`, launch Cursor from a shell that already has the variable exported.
+Use [the current hosted MCP authentication guide](https://leadmagic.io/docs/mcp/authentication) if sign-in fails. REST API keys belong to REST integrations and are not required in this plugin configuration.
 
 ## MCP configuration
 
@@ -113,7 +95,6 @@ On macOS, if Cursor cannot see `LEADMAGIC_API_KEY`, launch Cursor from a shell t
 | URL | `https://mcp.leadmagic.io/mcp` |
 | Transport | `http` |
 | Default auth | OAuth in Cursor |
-| Optional auth | `x-leadmagic-key: ${LEADMAGIC_API_KEY}` |
 
 ## What you can do with it
 
@@ -193,9 +174,8 @@ Additional repo docs:
 | Issue | What to try |
 | --- | --- |
 | OAuth sign-in does not complete | Confirm the MCP URL is `https://mcp.leadmagic.io/mcp` and remove incorrect header overrides. |
-| API-key auth fails | Confirm `x-leadmagic-key` is set from `${LEADMAGIC_API_KEY}` and that Cursor can read the env var. |
 | Cursor cannot see `LEADMAGIC_API_KEY` | On macOS, launch Cursor from a shell that already has the variable exported. |
-| Health check works but MCP returns `401` | Expected until OAuth completes or a valid API key is provided. |
+| Health check works but MCP returns `401` | Complete or reconnect OAuth in Cursor. |
 
 ## Project layout
 
