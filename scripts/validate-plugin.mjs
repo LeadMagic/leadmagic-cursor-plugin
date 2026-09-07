@@ -3,6 +3,7 @@ import Ajv from "ajv";
 import addFormats from "ajv-formats";
 import fs from "node:fs";
 import path from "node:path";
+import { verifyLogo } from "./verify-logo.mjs";
 import { validateFrontmatter } from "./validate-frontmatter.mjs";
 
 const root = process.cwd();
@@ -102,6 +103,8 @@ try {
 		"Missing vendored Cursor plugin schema at schemas/plugin.schema.json",
 	);
 	assert(exists(plugin.logo), `Missing logo file: ${plugin.logo}`);
+	assert(!fs.lstatSync(path.join(root, plugin.logo)).isSymbolicLink(), "Logo must be a committed file, not a symlink");
+	verifyLogo(fs.readFileSync(path.join(root, plugin.logo)));
 
 	assert(
 		!exists(".cursor-plugin/marketplace.json"),

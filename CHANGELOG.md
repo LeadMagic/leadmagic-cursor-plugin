@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.11
+
+- Verify the public OAuth challenge and discovery metadata, including PKCE and public-client support.
+- Pin the reviewed official logo and reject asset changes or symlink substitution during validation.
+- Document authentication recovery without static API keys; extend public-file detection to npm tokens.
+- Add regression tests for auth discovery failures and logo replacement.
+
 ## 0.1.10
 
 - Refine all five skills using Cursor skill-authoring guidance: focused triggers, concrete examples, and Custom Mode badges.
