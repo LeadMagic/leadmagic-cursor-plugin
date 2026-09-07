@@ -1,7 +1,7 @@
 {
   "name": "leadmagic-cursor-plugin",
   "private": true,
-  "version": "0.1.8",
+  "version": "0.1.9",
   "engines": {
     "node": ">=22"
   },
@@ -10,9 +10,10 @@
   "scripts": {
     "validate": "node scripts/validate-plugin.mjs",
     "verify:health": "node scripts/verify-mcp-health.mjs",
-    "check": "npm run validate && npm run verify:health",
+    "check": "npm run validate && npm test && npm run verify:health",
     "install:local": "node scripts/install-local-plugin.mjs",
-    "uninstall:local": "node scripts/install-local-plugin.mjs --unlink"
+    "uninstall:local": "node scripts/install-local-plugin.mjs --unlink",
+    "test": "node --test"
   },
   "devDependencies": {
     "ajv": "8.20.0",

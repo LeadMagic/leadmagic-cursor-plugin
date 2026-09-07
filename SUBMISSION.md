@@ -39,11 +39,11 @@ Before submitting:
 4. Run `npm ci`.
 5. Run `npm run check` (or `npm run validate` if you are offline).
 6. If you want to test the package in Cursor first, run `npm run install:local` and reload Cursor with `Developer: Reload Window`.
-7. Security disclosure policy: `SECURITY.md` (email plugins@leadmagic.io for vulnerabilities).
+7. Security disclosure policy: `SECURITY.md` (email security@leadmagic.io for vulnerabilities).
 
 ## Suggested reviewer note
 
-LeadMagic is an API-first B2B enrichment platform for AI agents and GTM engineers. This plugin packages our hosted MCP integration (10 tools, `leadmagic://docs`, two prompts) into a Cursor-native repo with focused skills, a dedicated enrichment agent, command playbooks, safe default guidance, and OAuth-first MCP auth (optional `LEADMAGIC_API_KEY` header for environments that need it). Tool calls are processed per LeadMagic privacy and terms at leadmagic.io.
+LeadMagic is an API-first B2B enrichment platform for AI agents and GTM engineers. This plugin packages our hosted MCP integration (current hosted tools, `leadmagic://docs`, and server-provided prompts) into a Cursor-native repo with focused skills, a dedicated enrichment agent, command playbooks, safe default guidance, and OAuth sign-in in Cursor. Tool calls are processed per LeadMagic privacy and terms at leadmagic.io.
 
 ## Short marketplace blurb alternatives
 

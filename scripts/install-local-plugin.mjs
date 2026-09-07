@@ -2,55 +2,49 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const pluginRoot = process.cwd();
-const manifestPath = path.join(pluginRoot, ".cursor-plugin", "plugin.json");
-const localPluginsDir = path.join(os.homedir(), ".cursor", "plugins", "local");
-const linkPath = path.join(localPluginsDir, "leadmagic");
-const unlinkOnly = process.argv.includes("--unlink");
+const scriptRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
-function assert(condition, message) {
-	if (!condition) {
-		throw new Error(message);
-	}
+// Inject paths for isolated tests; the CLI always uses Cursor's local plugin directory.
+export function installLocalPlugin({ pluginRoot = scriptRoot,
+  pluginsDir = path.join(os.homedir(), ".cursor", "plugins", "local"), unlink = false } = {}) {
+  const root = path.resolve(pluginRoot);
+  const target = path.join(pluginsDir, "leadmagic");
+  let stats;
+  try { stats = fs.lstatSync(target); }
+  catch (error) { if (error.code !== "ENOENT") throw error; }
+  if (stats) {
+    if (!stats.isSymbolicLink()) throw new Error(`Refusing to replace non-symlink at ${target}`);
+    const linkedRoot = path.resolve(path.dirname(target), fs.readlinkSync(target));
+    if (linkedRoot !== root) throw new Error(`Another checkout owns ${target}; remove that link explicitly before switching checkouts.`);
+  }
+  if (unlink) {
+    if (stats) fs.unlinkSync(target);
+    return stats ? "Removed local Cursor plugin link." : "No local Cursor plugin link to remove.";
+  }
+  if (!fs.existsSync(path.join(root, ".cursor-plugin", "plugin.json"))) {
+    throw new Error("Plugin manifest is missing from this checkout.");
+  }
+  if (stats) return "This checkout is already linked to Cursor.";
+  fs.mkdirSync(pluginsDir, { recursive: true });
+  fs.symlinkSync(root, target, "dir");
+  return `Linked plugin to ${target}`;
 }
 
-function removeExistingTarget(targetPath) {
-	if (!fs.existsSync(targetPath)) {
-		return;
-	}
-
-	const stats = fs.lstatSync(targetPath);
-	if (!stats.isSymbolicLink()) {
-		throw new Error(
-			`Refusing to replace non-symlink target at ${targetPath}. Remove it manually if this is intentional.`,
-		);
-	}
-
-	fs.unlinkSync(targetPath);
-}
-
-try {
-	assert(
-		fs.existsSync(manifestPath),
-		"Run this script from the plugin repository root so .cursor-plugin/plugin.json is available.",
-	);
-
-	fs.mkdirSync(localPluginsDir, { recursive: true });
-	removeExistingTarget(linkPath);
-
-	if (unlinkOnly) {
-		console.log(`Removed local Cursor plugin link at ${linkPath}`);
-		process.exit(0);
-	}
-
-	fs.symlinkSync(pluginRoot, linkPath, "dir");
-	console.log(`Linked plugin to ${linkPath}`);
-	console.log("Next step: reload Cursor with 'Developer: Reload Window'.");
-	console.log(
-		"After reload: complete LeadMagic OAuth when Cursor connects to MCP, or configure LEADMAGIC_API_KEY + headers per README if you use API-key mode.",
-	);
-} catch (error) {
-	console.error(error instanceof Error ? error.message : String(error));
-	process.exit(1);
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  try {
+    const args = process.argv.slice(2);
+    if (args.some(arg => !["--unlink", "--help"].includes(arg))) throw new Error("Usage: install-local-plugin.mjs [--unlink | --help]");
+    if (args.includes("--help")) {
+      console.log("Usage: install-local-plugin.mjs [--unlink | --help]\nLinks this checkout into ~/.cursor/plugins/local/leadmagic. Existing files and other checkouts are preserved.");
+    } else {
+      console.log(installLocalPlugin({ unlink: args.includes("--unlink") }));
+      console.log("Reload Cursor with 'Developer: Reload Window', then check Customize.");
+      if (!args.includes("--unlink")) console.log("Complete LeadMagic OAuth when prompted. Local imports must be allowed; a marketplace install with the same name takes precedence.");
+    }
+  } catch (error) {
+    console.error(error.message);
+    process.exitCode = 1;
+  }
 }
