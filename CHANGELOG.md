@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.10
+
+- Refine all five skills using Cursor skill-authoring guidance: focused triggers, concrete examples, and Custom Mode badges.
+- Align the enrichment agent and validation command with those workflows, including bulk recovery and evidence handling.
+- Validate YAML frontmatter, metadata types, and skill directory identity; add regression tests and a manual Cursor acceptance checklist.
+
 ## 0.1.9
 
 - Make local installation idempotent and preserve existing files and other checkouts, including broken links.
