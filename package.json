@@ -1,21 +1,21 @@
 {
-	"name": "leadmagic-cursor-plugin",
-	"private": true,
-	"version": "0.1.8",
-	"engines": {
-		"node": ">=22"
-	},
-	"description": "Submission package for the LeadMagic Cursor plugin",
-	"license": "MIT",
-	"scripts": {
-		"validate": "node scripts/validate-plugin.mjs",
-		"verify:health": "node scripts/verify-mcp-health.mjs",
-		"check": "npm run validate && npm run verify:health",
-		"install:local": "node scripts/install-local-plugin.mjs",
-		"uninstall:local": "node scripts/install-local-plugin.mjs --unlink"
-	},
-	"devDependencies": {
-		"ajv": "8.20.0",
-		"ajv-formats": "3.0.1"
-	}
+  "name": "leadmagic-cursor-plugin",
+  "private": true,
+  "version": "0.1.8",
+  "engines": {
+    "node": ">=22"
+  },
+  "description": "Submission package for the LeadMagic Cursor plugin",
+  "license": "MIT",
+  "scripts": {
+    "validate": "node scripts/validate-plugin.mjs",
+    "verify:health": "node scripts/verify-mcp-health.mjs",
+    "check": "npm run validate && npm run verify:health",
+    "install:local": "node scripts/install-local-plugin.mjs",
+    "uninstall:local": "node scripts/install-local-plugin.mjs --unlink"
+  },
+  "devDependencies": {
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1"
+  }
 }
