@@ -1,21 +1,21 @@
-# Cursor OAuth setup and troubleshooting
+# OAuth setup and troubleshooting (Cursor and Grok Bot)
 
-Enable the LeadMagic plugin in Customize. On first MCP use, **Cursor** prompts OAuth. Sign in with your LeadMagic account in the browser (Google or email — the same account as [app.leadmagic.io](https://app.leadmagic.io)). After you finish, return to Cursor. Use a simple search or `validate-email` prompt to confirm the connection.
+Enable the LeadMagic plugin. On first MCP use, **Cursor or Grok Bot** prompts OAuth against `https://mcp.leadmagic.io/mcp`. Sign in with your LeadMagic account in the browser (Google or email — the same account as [app.leadmagic.io](https://app.leadmagic.io)). There is **no second login page**. After you finish, return to the client that prompted you. Use a simple search or `validate-email` prompt to confirm the connection.
 
-The bundled `mcp.json` contains only HTTP transport and `https://mcp.leadmagic.io/mcp`. Do not add REST API keys, `X-API-Key`, static Authorization headers, client secrets, or tokens. Cursor discovers OAuth from the hosted MCP URL and opens the browser. See [LeadMagic authentication](https://leadmagic.io/docs/mcp/authentication) and [Cursor MCP documentation](https://cursor.com/docs/mcp).
+The bundled `mcp.json` and `.mcp.json` are byte-identical: Agent Plugins 1.0.0 `streamable-http` to `https://mcp.leadmagic.io/mcp`, with no headers, keys, commands, or extra servers. Cursor and Grok Bot discover OAuth from that URL and open the browser. LeadMagic MCP already returns the session to Cursor and Grok Bot; do not paste keys or add a custom callback. See [LeadMagic authentication](https://leadmagic.io/docs/mcp/authentication) and [Cursor MCP documentation](https://cursor.com/docs/mcp).
 
 ## Diagnose the stage that failed
 
 | Observation | Next step |
 | --- | --- |
-| Plugin is missing | Reload Window; allow local imports; a marketplace copy with the same name wins. |
-| Browser shows LeadMagic sign-in | Expected. Complete it, then return to Cursor. |
-| Tools are missing | Enable LeadMagic MCP in Customize and finish browser sign-in. |
-| `401` before sign-in | Expected OAuth challenge. Sign in through Cursor. |
+| Plugin is missing | Reload; allow local imports; a marketplace copy with the same name wins. After listing, search LeadMagic in Cursor Plugins or Grok Bot Plugins (same catalog). |
+| Browser shows LeadMagic sign-in | Expected. Complete it, then return to Cursor or Grok Bot. No second page. |
+| Tools are missing | Enable LeadMagic MCP and finish browser sign-in. |
+| `401` before sign-in | Expected OAuth challenge. Sign in through Cursor or Grok Bot. |
 | `401` after sign-in | Reconnect LeadMagic OAuth. Do not paste an API key. |
 | `402` on search or mobile | Separate product entitlement vs wallet; check billing in the app. |
 | `403` with an account message | Read that message; do not retry indefinitely. |
-| Browser callback fails | Record the Cursor surface and sanitized error. Never share the callback query string. |
+| Browser callback fails | Record the Cursor or Grok Bot surface and sanitized error. Never share the callback query string. |
 
 ## Automated verification
 

@@ -2,7 +2,9 @@
 
 ## 1.0.5
 
-- First-run copy is plugin-facing: Cursor prompts OAuth against `https://mcp.leadmagic.io/mcp`. Sign in with your LeadMagic account in the browser. No API key, no vendor internals in the README.
+- Dual-publish for cursor.directory Auto GitHub scan: keep `.cursor-plugin/` (Cursor Plugin 3.13 marketplace schema) and add root `plugin.json` (Agent Plugins 1.0.0).
+- `mcp.json` and `.mcp.json` are identical OAuth HTTP config: `streamable-http` to `https://mcp.leadmagic.io/mcp`, no keys or extra servers.
+- List for Cursor and Grok Bot (same marketplace): `minClientVersions.grokbot` `0.49.0`. First-run copy is the same OAuth MCP; no second login page.
 
 ## 1.0.4
 

@@ -1,22 +1,22 @@
 # LeadMagic
 
-<img src="https://raw.githubusercontent.com/LeadMagic/leadmagic-cursor-plugin/main/assets/logo.svg" width="64" height="64" alt="LeadMagic logo">
+<img src="https://raw.githubusercontent.com/LeadMagic/leadmagic-cursor-plugin/main/assets/logo.svg" width="64" height="64" alt="LeadMagic" decoding="async">
 
-Official LeadMagic plugin for Cursor. Connect your agent to LeadMagic’s hosted MCP for B2B research: **search** people, companies, and jobs; **find** and **validate** work emails; look up **professional mobile** numbers.
+Official LeadMagic plugin for Cursor and Grok Bot. Connect your agent to LeadMagic’s hosted MCP for B2B research: **search** people, companies, and jobs; **find** and **validate** work emails; look up **professional mobile** numbers.
 
 [LeadMagic](https://leadmagic.io?utm_source=github&utm_medium=readme&utm_campaign=leadmagic-cursor-plugin) · [MCP setup](https://leadmagic.io/docs/mcp/setup?utm_source=github&utm_medium=readme&utm_campaign=leadmagic-cursor-plugin) · [Pricing](https://leadmagic.io/pricing?utm_source=github&utm_medium=readme&utm_campaign=leadmagic-cursor-plugin)
 
-This is licensed contact and company intelligence — the same class of product as enterprise GTM data platforms. It is **not** a scraper. Hosted MCP is OAuth only (no API key in this plugin).
+This is licensed contact and company intelligence — the same class of product as enterprise GTM data platforms. It is **not** a scraper. Hosted MCP is OAuth only (no API key in this plugin). After listing, it works in **Cursor** and **Grok Bot** from the same [Cursor Marketplace](https://cursor.com/marketplace) catalog.
 
-Install today via **Team Marketplace import** of this repo. `/add-plugin leadmagic` works after Cursor lists the plugin on [cursor.com/marketplace](https://cursor.com/marketplace). Canonical plugin URL: [mcp.leadmagic.io/cursor-plugin](https://mcp.leadmagic.io/cursor-plugin) (redirects here).
+Install today via **Team Marketplace import** of this repo. `/add-plugin leadmagic` works after the plugin is listed. Canonical plugin URL: [mcp.leadmagic.io/cursor-plugin](https://mcp.leadmagic.io/cursor-plugin) (redirects here).
 
 ## Install
 
 1. Open **Cursor Dashboard → Plugins → Team Marketplaces → Import from Repo**.
 2. Paste `https://github.com/LeadMagic/leadmagic-cursor-plugin` (same target as `https://mcp.leadmagic.io/cursor-plugin`).
-3. Enable **LeadMagic**. The first time a tool hits MCP, **Cursor** prompts OAuth. Sign in with your LeadMagic account in the browser (Google or email — the same account as [app.leadmagic.io](https://app.leadmagic.io)). There is no API key to paste.
+3. Enable **LeadMagic**. The first time a tool hits MCP, **Cursor or Grok Bot** prompts OAuth. Sign in with your LeadMagic account in the browser (Google or email — the same account as [app.leadmagic.io](https://app.leadmagic.io)). There is no API key and no second login page.
 
-After official marketplace listing, you can also search **LeadMagic** in **Cursor Settings → Plugins** or run `/add-plugin leadmagic`.
+After official marketplace listing, search **LeadMagic** in **Cursor Settings → Plugins** or **Grok Bot Plugins** (same catalog) or run `/add-plugin leadmagic`.
 
 ### This checkout (local play)
 
@@ -25,7 +25,7 @@ npm ci
 npm run install:local
 ```
 
-Then **Developer: Reload Window**. Open **Customize** and confirm LeadMagic. Complete the browser sign-in when Cursor asks. Local imports must be allowed. A marketplace install with the same name takes precedence.
+Then **Developer: Reload Window**. Open **Customize** and confirm LeadMagic. Complete the browser sign-in when Cursor or Grok Bot asks. Local imports must be allowed. A marketplace install with the same name takes precedence.
 
 The installer links this repo at `~/.cursor/plugins/local/leadmagic`. `npm run uninstall:local` removes only this checkout’s link.
 
@@ -41,17 +41,18 @@ Uses `.cursor-plugin/marketplace.json` with `"source": "."`.
 
 ## Sign in
 
-Hosted MCP is `https://mcp.leadmagic.io/mcp`. Cursor starts OAuth and opens the browser. Sign in with the LeadMagic workspace you already use. Do not add `X-API-Key` or other headers to `mcp.json`.
+Hosted MCP is `https://mcp.leadmagic.io/mcp`. Cursor and Grok Bot start the same OAuth flow and open the browser. Sign in with the LeadMagic workspace you already use. Do not add `X-API-Key` or other headers to `mcp.json`. There is no second login page: finish LeadMagic sign-in, then return to the client that prompted you.
 
-If the browser stops on LeadMagic sign-in, finish it, then return to Cursor. Reconnect from MCP settings if tools still return `401`.
+If the browser stops on LeadMagic sign-in, finish it, then return to Cursor or Grok Bot. Reconnect from MCP settings if tools still return `401`.
 
 Details: [docs/authentication.md](docs/authentication.md) · [LeadMagic MCP authentication](https://leadmagic.io/docs/mcp/authentication).
 
 ```json
 {
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
   "mcpServers": {
     "leadmagic": {
-      "type": "http",
+      "type": "streamable-http",
       "url": "https://mcp.leadmagic.io/mcp"
     }
   }
@@ -125,7 +126,7 @@ Authoring: [Cursor Agent Skills](https://cursor.com/docs/skills). Plugin model: 
 - [LeadMagic MCP Setup](https://leadmagic.io/docs/mcp/setup)
 - REST schemas: [LeadMagic OpenAPI](https://github.com/LeadMagic/leadmagic-openapi)
 
-REST (`https://api.leadmagic.io`, `X-API-Key`) is for your own integrations — never commit keys here. Prefer MCP in Cursor.
+REST (`https://api.leadmagic.io`, `X-API-Key`) is for your own integrations — never commit keys here. Prefer MCP in Cursor and Grok Bot.
 
 ## Security
 
@@ -141,8 +142,8 @@ Node.js **22**. `npm ci && npm run check` (`npm run validate`, `npm test`, `npm 
 
 | Issue | What to try |
 | --- | --- |
-| Browser login | Finish LeadMagic sign-in, then return to Cursor. |
-| MCP `401` | Reconnect OAuth in Customize. Do not paste an API key. |
+| Browser login | Finish LeadMagic sign-in, then return to Cursor or Grok Bot. |
+| MCP `401` | Reconnect OAuth in Customize (or Grok Bot Plugins). Do not paste an API key. |
 | Search or mobile `402` | Separate product entitlement vs wallet; check the app billing page. |
 
 MIT. See [LICENSE](LICENSE).
