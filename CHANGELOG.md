@@ -1,5 +1,43 @@
 # Changelog
 
+## 1.0.4
+
+- Align `.cursor-plugin/marketplace.json` with Cursor’s official schema: plugin entries may only include `name`, `source`, `description`, and `minClientVersions`. Extra `logo` / `category` fields fail marketplace import (`additionalProperties: false`).
+- Vendor `schemas/marketplace.schema.json` and validate it in `npm run validate`.
+- Point install docs at Team Marketplace import and `https://mcp.leadmagic.io/cursor-plugin`.
+
+## 1.0.3
+
+- Pin the official LeadMagic icon (`https://leadmagic.io/logo/icon.svg`, 256×256 SVG) and add a 256×256 PNG raster for listings that need it.
+- Align marketplace entry (`logo`, `category`) and add `.mcp.json` for cursor.directory auto-detect after official marketplace listing.
+- Skill frontmatter matches the official plugin template (`name`, `description` only).
+
+## 1.0.2
+
+- Search-then-enrich-selected playbook: look up work email or professional mobile only for named rows after search.
+- First-run prompt: credits, then a bounded company search without unlocking emails.
+
+## 1.0.1
+
+- Front door is four features: people/company/jobs search, work-email find, work-email validate, professional mobile.
+- Clerk/OAuth first-run copy matches app.leadmagic.io sign-in. Marketplace tone is licensed B2B contact data, not scraping.
+- Trim GTM extras from README, agent, and commands; keep thin supporting skills only.
+
+## 1.0.0
+
+- Marketplace-ready packaging: category `integrations`, `minClientVersions.cursor` `3.13.0`, short GTM-outcome description, `/add-plugin leadmagic`.
+- Add ICP, buying-committee, and markdown table skills wrapping hosted MCP.
+- User-facing copy uses B2B profile / B2B profile URL; drop marketplace emphasis on phone lookup.
+
+## 0.1.13
+
+- Align plugin copy and agent routing with the public docs/MCP surface: people/company/jobs search, ads, B2B profile tools, bulk, hiring signals, lookalikes, and REST fallbacks when MCP has no tool.
+- Marketplace and README wording uses B2B profile data / B2B profile URL.
+
+## 0.1.12
+
+- Add `.cursor-plugin/marketplace.json` with `source: "."` so Cursor GitHub clone / Import from Repo detects the plugin.
+
 ## 0.1.11
 
 - Verify the public OAuth challenge and discovery metadata, including PKCE and public-client support.
@@ -53,12 +91,12 @@ All notable changes to the LeadMagic Cursor plugin package are documented here.
 
 ## 0.1.4
 
-- **Auth:** Default `mcp.json` uses OAuth only (no headers); Cursor signs in with LeadMagic. README documents optional `x-leadmagic-key` + `${LEADMAGIC_API_KEY}` for API-key mode.
+- **Auth:** Default `mcp.json` uses OAuth only (no headers); Cursor signs in with LeadMagic.
 - **CI:** `npm run check` runs validate plus `verify:health` against `https://mcp.leadmagic.io/health`; redundant `mcp.json` inline checks removed (covered by validate).
 
 ## 0.1.3
 
 - **MCP:** Hosted server at `https://mcp.leadmagic.io/mcp` — 10 tools, shared docs resource `leadmagic://docs`, prompts `account_research` and `contact_lookup`.
-- **Auth:** `mcp.json` uses header `x-leadmagic-key` with `${LEADMAGIC_API_KEY}`.
-- **Bundle:** Default rule, four skills (contact enrichment, account intelligence, prospect list QA, signal research), validation script, and GitHub Actions CI.
+- **Auth:** Hosted MCP later moved to OAuth-only; this release still documented a header placeholder.
+- **Bundle:** Default rule, skills, validation script, and GitHub Actions CI.
 - **Docs:** README includes data handling and links to privacy, terms, and support; `SUBMISSION.md` marketplace copy matches the MCP tool surface.

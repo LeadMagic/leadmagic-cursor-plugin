@@ -3,7 +3,7 @@ import Ajv from "ajv";
 import addFormats from "ajv-formats";
 import fs from "node:fs";
 import path from "node:path";
-import { verifyLogo } from "./verify-logo.mjs";
+import { verifyLogo, verifyRasterLogo } from "./verify-logo.mjs";
 import { validateFrontmatter } from "./validate-frontmatter.mjs";
 
 const root = process.cwd();
@@ -83,6 +83,18 @@ try {
 		"Plugin must reference mcp.json for hosted MCP configuration",
 	);
 	assert(
+		plugin.category === "integrations",
+		"plugin.json category must be integrations for marketplace listing",
+	);
+	assert(
+		plugin.minClientVersions?.cursor === "3.13.0",
+		"plugin.json minClientVersions.cursor must be 3.13.0",
+	);
+	assert(
+		!/\blinkedin\b/i.test(plugin.description),
+		"plugin.json description must not mention LinkedIn",
+	);
+	assert(
 		plugin.skills === "./skills/",
 		"Plugin must expose the skills directory with an explicit relative path",
 	);
@@ -105,11 +117,90 @@ try {
 	assert(exists(plugin.logo), `Missing logo file: ${plugin.logo}`);
 	assert(!fs.lstatSync(path.join(root, plugin.logo)).isSymbolicLink(), "Logo must be a committed file, not a symlink");
 	verifyLogo(fs.readFileSync(path.join(root, plugin.logo)));
+	assert(exists("assets/logo.png"), "Missing raster listing logo at assets/logo.png");
+	assert(!fs.lstatSync(path.join(root, "assets/logo.png")).isSymbolicLink(), "Raster logo must be a committed file, not a symlink");
+	verifyRasterLogo(fs.readFileSync(path.join(root, "assets/logo.png")));
 
 	assert(
-		!exists(".cursor-plugin/marketplace.json"),
-		"Single-plugin repositories should not include .cursor-plugin/marketplace.json; reserve it for multi-plugin marketplace repos.",
+		exists(".cursor-plugin/marketplace.json"),
+		"Missing .cursor-plugin/marketplace.json (required for GitHub Import from Repo / clone)",
 	);
+	const marketplace = readJson(".cursor-plugin/marketplace.json");
+	assert(marketplace.name === "leadmagic", "marketplace.json name must be leadmagic");
+	assert(
+		marketplace.owner?.name === "LeadMagic" &&
+			marketplace.owner?.email === "plugins@leadmagic.io",
+		"marketplace.json owner must match LeadMagic plugin identity",
+	);
+	assert(
+		marketplace.metadata?.version === plugin.version,
+		"marketplace.json metadata.version must match plugin.json version",
+	);
+	assert(
+		Array.isArray(marketplace.plugins) && marketplace.plugins.length === 1,
+		"marketplace.json must list exactly one plugin for this single-plugin repo",
+	);
+	assert(
+		marketplace.plugins[0]?.name === "leadmagic" &&
+			marketplace.plugins[0]?.source === ".",
+		"marketplace.json must point Cursor clone/import at the repo root (source \".\")",
+	);
+	assert(
+		marketplace.plugins[0]?.minClientVersions?.cursor === "3.13.0",
+		"marketplace.json plugin entry minClientVersions.cursor must be 3.13.0",
+	);
+	assert(
+		!("logo" in (marketplace.plugins[0] ?? {})),
+		"marketplace.json plugin entries must not include logo (Cursor marketplace.schema.json additionalProperties: false)",
+	);
+	assert(
+		!("category" in (marketplace.plugins[0] ?? {})),
+		"marketplace.json plugin entries must not include category (belongs on plugin.json only)",
+	);
+	assert(
+		exists("schemas/marketplace.schema.json"),
+		"Missing vendored Cursor marketplace schema at schemas/marketplace.schema.json",
+	);
+	const marketplaceSchema = readJson("schemas/marketplace.schema.json");
+	const validateMarketplace = ajv.compile(marketplaceSchema);
+	assert(
+		validateMarketplace(marketplace),
+		`marketplace.json must satisfy Cursor's official marketplace schema: ${formatAjvErrors(validateMarketplace.errors)}`,
+	);
+
+	const bannedCopy = /\b(?:linkedin|clay(?:gent)?)\b/i;
+	const shipCopyRoots = [
+		".cursor-plugin/plugin.json",
+		".cursor-plugin/marketplace.json",
+		"README.md",
+		"SUBMISSION.md",
+		"mcp.json",
+		".mcp.json",
+		"agents",
+		"commands",
+		"skills",
+		"rules",
+	];
+	function collectShipFiles(rel) {
+		const abs = path.join(root, rel);
+		const st = fs.statSync(abs);
+		if (st.isFile()) return [abs];
+		return fs.readdirSync(abs, { withFileTypes: true }).flatMap((entry) => {
+			const child = path.join(rel, entry.name);
+			if (entry.isDirectory()) return collectShipFiles(child);
+			if (/\.(md|mdc|json)$/i.test(entry.name)) return [path.join(root, child)];
+			return [];
+		});
+	}
+	for (const rel of shipCopyRoots) {
+		for (const file of collectShipFiles(rel)) {
+			const text = fs.readFileSync(file, "utf8");
+			assert(
+				!bannedCopy.test(text),
+				`${path.relative(root, file)} must not contain banned vendor names in plugin-facing copy`,
+			);
+		}
+	}
 
 	assert(
 		exists("SECURITY.md"),
@@ -153,8 +244,32 @@ try {
 		"leadmagic MCP default must omit headers so Cursor uses OAuth sign-in with LeadMagic",
 	);
 
+	assert(exists(".mcp.json"), "Missing .mcp.json (cursor.directory Open Plugins auto-detect)");
+	const directoryMcp = readJson(".mcp.json");
+	assert(
+		JSON.stringify(directoryMcp) === JSON.stringify(mcp),
+		".mcp.json must match mcp.json so Cursor and the community index advertise the same OAuth MCP",
+	);
+
 	const skillsRoot = path.join(root, "skills");
 	assert(fs.existsSync(skillsRoot), "Missing skills directory");
+	const expectedSkills = [
+		"account-intelligence",
+		"find-mobile",
+		"find-work-email",
+		"market-search",
+		"prospect-list-qc",
+		"validate-work-email",
+	];
+	const skillDirs = fs
+		.readdirSync(skillsRoot, { withFileTypes: true })
+		.filter((entry) => entry.isDirectory())
+		.map((entry) => entry.name)
+		.sort();
+	assert(
+		JSON.stringify(skillDirs) === JSON.stringify(expectedSkills),
+		`skills/ must match the front-door skill set (${expectedSkills.join(", ")})`,
+	);
 	for (const entry of fs.readdirSync(skillsRoot, { withFileTypes: true })) {
 		if (!entry.isDirectory()) continue;
 		const skillPath = path.join(skillsRoot, entry.name, "SKILL.md");
@@ -202,11 +317,13 @@ try {
 		"https://mcp.leadmagic.io/mcp",
 		"https://github.com/LeadMagic/leadmagic-openapi",
 		"https://cursor.com/docs/plugins",
+		"https://mcp.leadmagic.io/cursor-plugin",
 		"[SECURITY.md](SECURITY.md)",
 		"leadmagic://docs",
 		"LeadMagic MCP Tools",
 		"OAuth",
 		"[LICENSE](LICENSE)",
+		"/add-plugin leadmagic",
 	]) {
 		assert(
 			readme.includes(expectedText),
@@ -234,9 +351,23 @@ try {
 		"SUBMISSION.md must use the repo-hosted canonical logo URL",
 	);
 	assert(
+		submission.includes("https://cursor.directory/plugins/new"),
+		"SUBMISSION.md must document the community directory submit URL",
+	);
+	assert(
+		submission.includes("after official marketplace") ||
+			submission.includes("AFTER official marketplace") ||
+			submission.includes("after Cursor Marketplace"),
+		"SUBMISSION.md must sequence community listing after official marketplace",
+	);
+	assert(
 		plugin.repository ===
 			"https://github.com/LeadMagic/leadmagic-cursor-plugin",
 		"plugin.json repository must match the public GitHub repo",
+	);
+	assert(
+		plugin.author?.email === "plugins@leadmagic.io",
+		"plugin.json author email must be plugins@leadmagic.io",
 	);
 	assert(
 		plugin.homepage === "https://leadmagic.io",
