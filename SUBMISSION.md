@@ -1,57 +1,68 @@
 # Cursor marketplace submission copy
 
-Use the following values in the Cursor marketplace publisher form.
+Use these values at [cursor.com/marketplace/publish](https://cursor.com/marketplace/publish). Jesse must be signed in; **this repo cannot submit the form**.
+
+Cursor Marketplace does **not** index a plugin from a Gmail to `marketplace-publishing@cursor.com`. That April 2026 email was outreach only. Registration is the publish form + a public GitHub repo whose `.cursor-plugin/marketplace.json` passes [Cursor’s marketplace schema](https://github.com/cursor/plugins/blob/main/schemas/marketplace.schema.json). Plugin entries may only have `name`, `source`, `description`, and `minClientVersions`. `logo` and `category` belong on `.cursor-plugin/plugin.json` only — extra entry fields fail import with `additionalProperties`.
 
 ## Form fields
 
-**Organization name**
+**Organization name**  
 LeadMagic
 
-**Organization handle**
+**Organization handle**  
 leadmagic
 
-**Unique namespace**
+**Unique namespace**  
 @leadmagic
 
-**Contact email**
+**Contact email**  
 plugins@leadmagic.io
 
-**Logotype URL**
+**Logotype URL**  
 https://raw.githubusercontent.com/LeadMagic/leadmagic-cursor-plugin/main/assets/logo.svg
 
-**Description**
-Official LeadMagic plugin for Cursor. Gives agents direct access to LeadMagic's hosted MCP surface for work email validation and discovery, mobile lookup, LinkedIn profile to work email, job-change detection, account research, competitor and technographics lists, people-by-role search, and credit balance—authenticated with OAuth in Cursor. Includes skills, rules, a dedicated enrichment agent, and command playbooks aligned with Cursor's plugin model.
+Logo path in-repo: `assets/logo.svg` (canonical, 256×256 SVG from https://leadmagic.io/logo/icon.svg). Raster fallback for forms that require PNG: `assets/logo.png` (256×256).
 
-**GitHub repository**
+**Description**  
+Official LeadMagic plugin for Cursor. Search people, companies, and jobs; find and validate work emails; look up professional mobile numbers via the hosted MCP surface with OAuth in Cursor.
+
+**GitHub repository**  
 https://github.com/LeadMagic/leadmagic-cursor-plugin
 
-**Website URL**
+**Website URL**  
 https://leadmagic.io
+
+**Category**  
+integrations
+
+**Install command (once listed)**  
+`/add-plugin leadmagic`
 
 ## Submission checklist
 
-Before submitting:
+1. Public repo on `main` at the GitHub URL above.
+2. `.cursor-plugin/marketplace.json` `"source": "."`, metadata.version `1.0.4`, **no** `logo`/`category` on the plugin entry.
+3. `plugin.json` `1.0.4`, category `integrations`, logo `assets/logo.svg`.
+4. `npm ci && npm test && npm run validate`.
+5. Local play: `npm run install:local`, Reload Window, Clerk browser sign-in.
+6. Submit at cursor.com/marketplace/publish while logged in as Jesse.
 
-1. Make sure the repository is public at `https://github.com/LeadMagic/leadmagic-cursor-plugin`.
-2. Make sure `assets/logo.svg` is committed on `main`.
-3. Confirm the public logo URL resolves:
-   `https://raw.githubusercontent.com/LeadMagic/leadmagic-cursor-plugin/main/assets/logo.svg`
-4. Run `npm ci`.
-5. Run `npm run check` (or `npm run validate` if you are offline).
-6. If you want to test the package in Cursor first, run `npm run install:local` and reload Cursor with `Developer: Reload Window`.
-7. Security disclosure policy: `SECURITY.md` (email security@leadmagic.io for vulnerabilities).
+## AE blurb
 
-## Suggested reviewer note
+LeadMagic for Cursor is hosted MCP with Clerk OAuth — no API keys in the plugin. Four features: people/company/jobs search, work-email find, work-email validate, professional mobile. Same class of B2B contact intelligence as enterprise GTM data platforms, not a scraper. Please list us so `/add-plugin leadmagic` works. Contact plugins@leadmagic.io.
 
-LeadMagic is an API-first B2B enrichment platform for AI agents and GTM engineers. This plugin packages our hosted MCP integration (current hosted tools, `leadmagic://docs`, and server-provided prompts) into a Cursor-native repo with focused skills, a dedicated enrichment agent, command playbooks, safe default guidance, and OAuth sign-in in Cursor. Tool calls are processed per LeadMagic privacy and terms at leadmagic.io.
+## Reviewer note
 
-## Short marketplace blurb alternatives
+This plugin packages `https://mcp.leadmagic.io/mcp` (OAuth, `leadmagic://docs`) with four user-facing skills and commands. Tool calls follow LeadMagic privacy and terms. We do not ship scraper claims.
 
-### Option A
-Official LeadMagic plugin for Cursor. Validate and find work emails, look up mobile numbers, resolve emails from B2B profiles, detect job changes, research accounts, list competitors and tech stack signals, find people by role, and check credits—inside Cursor.
+## Community listing (after Cursor Marketplace)
 
-### Option B
-B2B enrichment for Cursor agents via LeadMagic's hosted MCP: emails, mobile, profiles, job changes, account intel, competitors, technographics, role search, and credit-aware usage.
+Do **not** submit to a third-party index until Cursor Marketplace has listed this plugin and `/add-plugin leadmagic` works. A directory page is not a marketplace listing; do not add a badge that implies we are already listed.
 
-### Option C
-Connect Cursor to LeadMagic for agent-native contact and account workflows backed by LeadMagic's hosted MCP and OAuth sign-in.
+When official listing is live:
+
+1. Open [cursor.directory/plugins/new](https://cursor.directory/plugins/new) (Cursor Directory, the current community plugin index; source process: [cursor/community-plugins](https://github.com/cursor/community-plugins)).
+2. Sign in with GitHub or Google.
+3. Paste `https://github.com/LeadMagic/leadmagic-cursor-plugin`.
+4. Confirm auto-detect of Open Plugins components (`.mcp.json`, `skills/*/SKILL.md`, `rules/*.mdc`, `agents/*.md`). Cursor itself still uses `mcp.json`; `.mcp.json` is a byte-identical copy for directory detection.
+5. Click **Submit**. Do not open a data PR on `cursor/community-plugins`.

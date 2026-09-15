@@ -1,8 +1,11 @@
 {
 	"name": "leadmagic",
 	"displayName": "LeadMagic",
-	"version": "0.1.11",
-	"description": "Official LeadMagic plugin for Cursor with hosted MCP (OAuth by default), skills, rules, agent, and commands: emails, mobile, LinkedIn-to-email, job changes, company research, competitors, technographics, and credits.",
+	"version": "1.0.4",
+	"minClientVersions": {
+		"cursor": "3.13.0"
+	},
+	"description": "Official LeadMagic plugin for Cursor. Search people, companies, and jobs; find and validate work emails; look up professional mobile numbers.",
 	"author": {
 		"name": "LeadMagic",
 		"email": "plugins@leadmagic.io"
@@ -16,17 +19,15 @@
 		"cursor",
 		"mcp",
 		"b2b",
-		"data-enrichment",
-		"email-validation",
-		"email-finder",
-		"company-intelligence",
-		"prospecting",
+		"enrichment",
 		"gtm",
-		"agent",
-		"commands"
+		"sales",
+		"prospecting",
+		"email-finder",
+		"company-intelligence"
 	],
-	"category": "developer-tools",
-	"tags": ["sales", "prospecting", "enrichment", "mcp", "api"],
+	"category": "integrations",
+	"tags": ["sales", "prospecting", "enrichment", "mcp", "gtm"],
 	"rules": "./rules/",
 	"skills": "./skills/",
 	"agents": "./agents/",

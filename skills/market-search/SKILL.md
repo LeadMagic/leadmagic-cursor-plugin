@@ -1,27 +1,27 @@
 ---
 name: market-search
-description: Builds bounded people, company, and jobs audiences with LeadMagic MCP. Use for market mapping, target account lists, and audience searches with a row or budget limit.
-icon: book-open
-color: purple
+description: Searches LeadMagic people, companies, and jobs. Use for audience lists, then optionally enrich only selected rows with work email or professional mobile.
 ---
-# Market search
+# Search people, companies, and jobs
 
-Use for audience building, account lists, and job searches. Read the connected tool schema and `leadmagic://docs` before choosing filters.
+Front-door skill for **search**. Prefer hosted MCP. Licensed B2B coverage, not scraping. Search first; contact unlock is a second, explicit step on **selected** rows only.
 
 ## Workflow
 
-1. Define the audience, requested row count, and budget from the user's brief. Clarify missing scope before a large run; preserve authorization already given.
-2. Check current account entitlements and use `preview_cost` and `check_credit_balance` when available. Do not assume probe searches are free or hard-code plan prices. Included search access still has usage and rate limits; enrichment, exports, and lookalikes can have separate charges.
-3. Use available catalog tools to resolve filters. Select `search_people`, `search_companies`, or the appropriate jobs tool from the live tool list. Do not send app-only preview options to REST endpoints.
-4. Page within the requested row and budget limits, keeping the same filters. Use the cursor fields and page-size limits supported by that tool; do not mix cursor pagination with a nonzero offset.
-5. Stop at the requested count, exhausted results, missing or repeated next cursor, cancellation, or budget limit. Respect Retry-After on rate limits and bound retries. Deduplicate by stable identifiers.
-6. Enrich only selected contacts and channels requested by the user. Reuse freshly validated finder emails without another validation call.
+1. Confirm entity (people, companies, or jobs), filters, row limit, and credit authorization. Prefer `company_domain` when you have it.
+2. Call `check_credit_balance` and `preview_cost` when available. Search and enrichment can be **separate entitlements**; report a 402 honestly.
+3. Route from the live schema:
+   - People at a company → `search_people`
+   - Companies → `search_companies`
+   - Open roles → `find_jobs` or `search_jobs`
+4. Page with cursor fields. Do not mix a cursor with a nonzero offset. Stop at the requested count, exhausted results, or budget.
+5. If the user then wants work emails or professional mobile, enrich **only the rows they named** (or a small agreed subset). Use `find_work_email` / `b2b_profile_to_work_email` and `find_mobile_number`. Do not unlock every search hit. Results stay in chat as markdown.
 
 ## Example
 
-Request: “Find up to 50 companies matching my ICP within the approved budget.”
-Route: resolve supported filters, preview cost where available, and paginate only until 50 unique companies or another stopping condition. Do not unlock contacts automatically.
+Request: “Find up to 20 companies like example.com in the US.”
+Route: `search_companies`. Return rows. If they then say “work emails for the first three,” run finder three times only.
 
 ## Output
 
-Return results or the requested output file, unique row count, filters, pages fetched, and whether the search completed or stopped early. Explain important unknowns. Recommend further enrichment separately; do not run it merely because a search returned contacts.
+Rows (or a short markdown table), unique count, filters, and whether search completed. Contact fields only when requested and actually looked up.
