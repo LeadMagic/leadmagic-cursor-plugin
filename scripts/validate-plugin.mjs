@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import Ajv from "ajv";
+import Ajv2020 from "ajv/dist/2020.js";
 import addFormats from "ajv-formats";
 import fs from "node:fs";
 import path from "node:path";
@@ -43,19 +44,56 @@ try {
 	const ajv = new Ajv({ allErrors: true });
 	addFormats(ajv);
 	const validatePlugin = ajv.compile(pluginSchema);
+	const ajv2020 = new Ajv2020({ allErrors: true, strict: false });
+	addFormats(ajv2020);
 
 	assert(
 		exists(".cursor-plugin/plugin.json"),
 		"Missing .cursor-plugin/plugin.json",
 	);
+	assert(exists("plugin.json"), "Missing root plugin.json (Open Plugins / cursor.directory Auto GitHub scan)");
 	const plugin = readJson(".cursor-plugin/plugin.json");
+	const openPlugin = readJson("plugin.json");
 	const pkg = readJson("package.json");
 	const lock = readJson("package-lock.json");
 	assert(plugin.version === pkg.version && pkg.version === lock.version && pkg.version === lock.packages[""].version, "Plugin, package and lockfile versions must match");
+	assert(openPlugin.version === plugin.version, "Root Open Plugins plugin.json version must match Cursor plugin.json");
 	assert(plugin.logo === "assets/logo.svg", "Plugin must use the bundled LeadMagic logo");
 	assert(
 		validatePlugin(plugin),
-		`plugin.json must satisfy Cursor's official plugin schema: ${formatAjvErrors(validatePlugin.errors)}`,
+		`.cursor-plugin/plugin.json must satisfy Cursor's official plugin schema: ${formatAjvErrors(validatePlugin.errors)}`,
+	);
+
+	assert(
+		exists("schemas/agent-plugins-plugin.schema.json"),
+		"Missing vendored Open Plugins plugin schema at schemas/agent-plugins-plugin.schema.json",
+	);
+	assert(
+		exists("schemas/agent-plugins-mcp.schema.json"),
+		"Missing vendored Open Plugins MCP schema at schemas/agent-plugins-mcp.schema.json",
+	);
+	const validateOpenPlugin = ajv2020.compile(readJson("schemas/agent-plugins-plugin.schema.json"));
+	assert(
+		validateOpenPlugin(openPlugin),
+		`plugin.json must satisfy Agent Plugins 1.0.0: ${formatAjvErrors(validateOpenPlugin.errors)}`,
+	);
+	assert(
+		openPlugin.$schema === "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+		"Root plugin.json must declare Agent Plugins 1.0.0",
+	);
+	assert(openPlugin.name === "leadmagic", "Open Plugins name must be leadmagic");
+	assert(openPlugin.author?.email === "plugins@leadmagic.io", "Open Plugins author email must be plugins@leadmagic.io");
+	assert(
+		openPlugin.keywords?.includes("grok-bot"),
+		"Open Plugins keywords must include grok-bot",
+	);
+	assert(
+		openPlugin.description.includes("Grok Bot"),
+		"Open Plugins description must mention Grok Bot",
+	);
+	assert(
+		!("logo" in openPlugin) && !("mcpServers" in openPlugin) && !("category" in openPlugin),
+		"Root plugin.json is the closed Open Plugins manifest (no Cursor-only fields)",
 	);
 
 	assert(
@@ -89,6 +127,22 @@ try {
 	assert(
 		plugin.minClientVersions?.cursor === "3.13.0",
 		"plugin.json minClientVersions.cursor must be 3.13.0",
+	);
+	assert(
+		plugin.minClientVersions?.grokbot === "0.49.0",
+		"plugin.json minClientVersions.grokbot must be 0.49.0 (Grok Bot Plugins is Cursor Marketplace)",
+	);
+	assert(
+		plugin.keywords?.includes("grok-bot"),
+		"plugin.json keywords must include grok-bot",
+	);
+	assert(
+		plugin.tags?.includes("grok-bot"),
+		"plugin.json tags must include grok-bot",
+	);
+	assert(
+		plugin.description.includes("Grok Bot"),
+		"plugin.json description must mention Grok Bot",
 	);
 	assert(
 		!/\blinkedin\b/i.test(plugin.description),
@@ -150,6 +204,10 @@ try {
 		"marketplace.json plugin entry minClientVersions.cursor must be 3.13.0",
 	);
 	assert(
+		marketplace.plugins[0]?.minClientVersions?.grokbot === "0.49.0",
+		"marketplace.json plugin entry minClientVersions.grokbot must be 0.49.0",
+	);
+	assert(
 		!("logo" in (marketplace.plugins[0] ?? {})),
 		"marketplace.json plugin entries must not include logo (Cursor marketplace.schema.json additionalProperties: false)",
 	);
@@ -172,10 +230,10 @@ try {
 	const shipCopyRoots = [
 		".cursor-plugin/plugin.json",
 		".cursor-plugin/marketplace.json",
+		"plugin.json",
 		"README.md",
 		"SUBMISSION.md",
 		"mcp.json",
-		".mcp.json",
 		"agents",
 		"commands",
 		"skills",
@@ -214,7 +272,19 @@ try {
 
 	assert(exists("mcp.json"), "Missing mcp.json");
 	const mcp = readJson("mcp.json");
-	assert(JSON.stringify(Object.keys(mcp)) === '["mcpServers"]', "Unexpected MCP configuration fields");
+	assert(
+		JSON.stringify(Object.keys(mcp)) === '["$schema","mcpServers"]',
+		"Unexpected MCP configuration fields",
+	);
+	assert(
+		mcp.$schema === "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+		"mcp.json must declare Agent Plugins 1.0.0 MCP schema",
+	);
+	const validateOpenMcp = ajv2020.compile(readJson("schemas/agent-plugins-mcp.schema.json"));
+	assert(
+		validateOpenMcp(mcp),
+		`mcp.json must satisfy Agent Plugins 1.0.0 MCP schema: ${formatAjvErrors(validateOpenMcp.errors)}`,
+	);
 	assert(mcp.mcpServers && JSON.stringify(Object.keys(mcp.mcpServers)) === '["leadmagic"]', "Only the LeadMagic server may be bundled");
 	assert(mcp.mcpServers.leadmagic && Object.keys(mcp.mcpServers.leadmagic).sort().join(",") === "type,url", "Hosted MCP config must contain only type and url; no credentials or commands");
 	assert(
@@ -227,38 +297,27 @@ try {
 		"mcp.json must define the leadmagic server",
 	);
 	assert(
-		mcp.mcpServers.leadmagic.type === "http",
-		"leadmagic MCP server must declare HTTP transport explicitly",
+		mcp.mcpServers.leadmagic.type === "streamable-http",
+		"leadmagic MCP server must declare Open Plugins streamable-http (OAuth HTTP, no keys)",
 	);
 	assert(
 		mcp.mcpServers.leadmagic.url === "https://mcp.leadmagic.io/mcp",
 		"leadmagic MCP URL must point to the hosted endpoint",
 	);
 	const lmServer = mcp.mcpServers.leadmagic;
-	const headerKeys =
-		lmServer.headers && typeof lmServer.headers === "object"
-			? Object.keys(lmServer.headers)
-			: [];
 	assert(
-		headerKeys.length === 0,
-		"leadmagic MCP default must omit headers so Cursor uses OAuth sign-in with LeadMagic",
+		!("headers" in lmServer) && !("command" in lmServer) && !("env" in lmServer),
+		"leadmagic MCP default must omit headers, command, and env so Cursor uses OAuth sign-in with LeadMagic",
 	);
 
-	assert(exists(".mcp.json"), "Missing .mcp.json (cursor.directory Open Plugins auto-detect)");
-	const directoryMcp = readJson(".mcp.json");
-	assert(
-		JSON.stringify(directoryMcp) === JSON.stringify(mcp),
-		".mcp.json must match mcp.json so Cursor and the community index advertise the same OAuth MCP",
-	);
+	assert(!exists(".mcp.json"), "Do not ship a duplicate .mcp.json; Open Plugins and Cursor both load mcp.json");
 
 	const skillsRoot = path.join(root, "skills");
 	assert(fs.existsSync(skillsRoot), "Missing skills directory");
 	const expectedSkills = [
-		"account-intelligence",
 		"find-mobile",
 		"find-work-email",
 		"market-search",
-		"prospect-list-qc",
 		"validate-work-email",
 	];
 	const skillDirs = fs
@@ -315,13 +374,14 @@ try {
 	const readme = fs.readFileSync(readmePath, "utf8");
 	for (const expectedText of [
 		"https://mcp.leadmagic.io/mcp",
-		"https://github.com/LeadMagic/leadmagic-openapi",
+		"https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
 		"https://cursor.com/docs/plugins",
 		"https://mcp.leadmagic.io/cursor-plugin",
 		"[SECURITY.md](SECURITY.md)",
 		"leadmagic://docs",
 		"LeadMagic MCP Tools",
 		"OAuth",
+		"Grok Bot",
 		"[LICENSE](LICENSE)",
 		"/add-plugin leadmagic",
 	]) {
@@ -339,7 +399,7 @@ try {
 		"SUBMISSION.md must include the GitHub repository",
 	);
 	assert(
-		submission.includes("Official LeadMagic plugin for Cursor."),
+		submission.includes("Official LeadMagic plugin for Cursor and Grok Bot."),
 		"SUBMISSION.md must keep the primary marketplace description",
 	);
 	assert(
@@ -355,10 +415,16 @@ try {
 		"SUBMISSION.md must document the community directory submit URL",
 	);
 	assert(
-		submission.includes("after official marketplace") ||
-			submission.includes("AFTER official marketplace") ||
-			submission.includes("after Cursor Marketplace"),
-		"SUBMISSION.md must sequence community listing after official marketplace",
+		submission.includes("https://agent-plugins.org/schemas/1.0.0/plugin.schema.json"),
+		"SUBMISSION.md must document Agent Plugins 1.0.0 for directory Auto scan",
+	);
+	assert(
+		submission.includes("root `plugin.json`"),
+		"SUBMISSION.md must document the Open Plugins root plugin.json dual-publish",
+	);
+	assert(
+		submission.includes("Grok Bot"),
+		"SUBMISSION.md must document Grok Bot (same Cursor Marketplace catalog)",
 	);
 	assert(
 		plugin.repository ===

@@ -5,16 +5,17 @@
 		"email": "plugins@leadmagic.io"
 	},
 	"metadata": {
-		"description": "Official LeadMagic plugin for Cursor: hosted MCP search, work email, and professional mobile.",
-		"version": "1.0.4"
+		"description": "Official LeadMagic plugin for Cursor and Grok Bot: hosted MCP search, work email, and professional mobile.",
+		"version": "1.0.5"
 	},
 	"plugins": [
 		{
 			"name": "leadmagic",
 			"source": ".",
-			"description": "Official LeadMagic plugin for Cursor. Search people, companies, and jobs; find and validate work emails; look up professional mobile numbers.",
+			"description": "Official LeadMagic plugin for Cursor and Grok Bot. Search people, companies, and jobs; find and validate work emails; look up professional mobile numbers.",
 			"minClientVersions": {
-				"cursor": "3.13.0"
+				"cursor": "3.13.0",
+				"grokbot": "0.49.0"
 			}
 		}
 	]

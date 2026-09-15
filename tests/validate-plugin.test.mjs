@@ -32,6 +32,6 @@ for (const scenario of ["extra-server", "credential-header", "command", "wrong-e
     const result = spawnSync(process.execPath, [path.join(root, "scripts/validate-plugin.mjs")], { cwd: dir, encoding: "utf8" });
     assert.equal(result.status, 1);
     assert.match(result.stderr, /Validation failed:/);
-    assert.match(result.stderr, /Only the LeadMagic|only type and url|hosted endpoint|versions must match|must not include logo|official marketplace schema/);
+    assert.match(result.stderr, /Only the LeadMagic|only type and url|hosted endpoint|versions must match|must not include logo|official marketplace schema|Agent Plugins/);
   });
 }

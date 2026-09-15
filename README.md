@@ -1,57 +1,33 @@
 # LeadMagic
 
-<img src="https://raw.githubusercontent.com/LeadMagic/leadmagic-cursor-plugin/main/assets/logo.svg" width="64" height="64" alt="LeadMagic logo">
+<img src="https://raw.githubusercontent.com/LeadMagic/leadmagic-cursor-plugin/main/assets/logo.svg" width="64" height="64" alt="LeadMagic" decoding="async">
 
-Official LeadMagic plugin for Cursor. Connect your agent to LeadMagic’s hosted MCP for B2B research: **search** people, companies, and jobs; **find** and **validate** work emails; look up **professional mobile** numbers.
+Official LeadMagic plugin for Cursor and Grok Bot. Search people, companies, and jobs; find and validate work emails; look up professional mobile numbers.
 
 [LeadMagic](https://leadmagic.io?utm_source=github&utm_medium=readme&utm_campaign=leadmagic-cursor-plugin) · [MCP setup](https://leadmagic.io/docs/mcp/setup?utm_source=github&utm_medium=readme&utm_campaign=leadmagic-cursor-plugin) · [Pricing](https://leadmagic.io/pricing?utm_source=github&utm_medium=readme&utm_campaign=leadmagic-cursor-plugin)
 
-This is licensed contact and company intelligence — the same class of product as enterprise GTM data platforms. It is **not** a scraper. Hosted MCP is OAuth only (no API key in this plugin).
-
-Install today via **Team Marketplace import** of this repo. `/add-plugin leadmagic` works after Cursor lists the plugin on [cursor.com/marketplace](https://cursor.com/marketplace). Canonical plugin URL: [mcp.leadmagic.io/cursor-plugin](https://mcp.leadmagic.io/cursor-plugin) (redirects here).
+Licensed B2B contact and company intelligence — **not** a scraper. Hosted MCP is **OAuth only**. After listing, it works in **Cursor** and **Grok Bot** from the same [Cursor Marketplace](https://cursor.com/marketplace) catalog. Canonical URL: [mcp.leadmagic.io/cursor-plugin](https://mcp.leadmagic.io/cursor-plugin).
 
 ## Install
 
-1. Open **Cursor Dashboard → Plugins → Team Marketplaces → Import from Repo**.
-2. Paste `https://github.com/LeadMagic/leadmagic-cursor-plugin` (same target as `https://mcp.leadmagic.io/cursor-plugin`).
-3. Enable **LeadMagic**. The first time a tool hits MCP, **Cursor** prompts OAuth. Sign in with your LeadMagic account in the browser (Google or email — the same account as [app.leadmagic.io](https://app.leadmagic.io)). There is no API key to paste.
+After listing: **Cursor Settings → Plugins** or **Grok Bot Plugins**, search **LeadMagic**, or run `/add-plugin leadmagic`.
 
-After official marketplace listing, you can also search **LeadMagic** in **Cursor Settings → Plugins** or run `/add-plugin leadmagic`.
+Team import today: **Dashboard → Plugins → Team Marketplaces → Import from Repo**, paste `https://github.com/LeadMagic/leadmagic-cursor-plugin`.
 
-### This checkout (local play)
-
-```bash
-npm ci
-npm run install:local
-```
-
-Then **Developer: Reload Window**. Open **Customize** and confirm LeadMagic. Complete the browser sign-in when Cursor asks. Local imports must be allowed. A marketplace install with the same name takes precedence.
-
-The installer links this repo at `~/.cursor/plugins/local/leadmagic`. `npm run uninstall:local` removes only this checkout’s link.
-
-### Team marketplace import
-
-`Dashboard → Plugins → Team Marketplaces → Import from Repo`:
-
-```text
-https://github.com/LeadMagic/leadmagic-cursor-plugin
-```
-
-Uses `.cursor-plugin/marketplace.json` with `"source": "."`.
+Local play: `npm ci && npm run install:local`, then **Developer: Reload Window**. `npm run uninstall:local` removes only this checkout’s link.
 
 ## Sign in
 
-Hosted MCP is `https://mcp.leadmagic.io/mcp`. Cursor starts OAuth and opens the browser. Sign in with the LeadMagic workspace you already use. Do not add `X-API-Key` or other headers to `mcp.json`.
+The first MCP call opens **one** LeadMagic sign-in page in the browser (Google or email — the same account as [app.leadmagic.io](https://app.leadmagic.io)). Cursor and Grok Bot discover OAuth from `https://mcp.leadmagic.io/mcp` and register as a public client (PKCE). There is nothing to paste: no API key, no client secret, no extra headers.
 
-If the browser stops on LeadMagic sign-in, finish it, then return to Cursor. Reconnect from MCP settings if tools still return `401`.
-
-Details: [docs/authentication.md](docs/authentication.md) · [LeadMagic MCP authentication](https://leadmagic.io/docs/mcp/authentication).
+Finish that page, then return to the client that opened it. Do **not** start a second login tab, a second workspace, or a custom callback. If tools return `401`, reconnect OAuth in Customize.
 
 ```json
 {
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
   "mcpServers": {
     "leadmagic": {
-      "type": "http",
+      "type": "streamable-http",
       "url": "https://mcp.leadmagic.io/mcp"
     }
   }
@@ -60,17 +36,15 @@ Details: [docs/authentication.md](docs/authentication.md) · [LeadMagic MCP auth
 
 ## First run
 
-After install and sign-in, ask:
-
 ```text
 Check my LeadMagic credit balance, then search 5 companies in B2B software in the US. Do not look up emails yet.
 ```
 
-That is **search first**, then look up work emails or professional mobile only for **selected** people. Results stay in the agent as markdown rows.
+**Search first**, then look up work emails or professional mobile only for **selected** people.
 
 ## What you can do
 
-Four product features. Prefer the live schema and `leadmagic://docs`. Email Finder returns validated work emails; use validation for addresses you already have. Check [credits](https://leadmagic.io/docs/v1/credits) before paid work. Search and some contact products can be **separate entitlements** from the main credit wallet.
+Prefer the live schema and `leadmagic://docs`. Check [credits](https://leadmagic.io/docs/v1/credits) before paid work. Search and some contact products can be separate entitlements.
 
 | Feature | When | MCP tools |
 | --- | --- | --- |
@@ -79,70 +53,18 @@ Four product features. Prefer the live schema and `leadmagic://docs`. Email Find
 | Work email validate | You already have an email | `validate_work_email` |
 | Professional mobile | Work email or B2B profile URL | `find_mobile_number` |
 
-Commands match those four: `search`, `find-work-email`, `validate-email`, `find-mobile`. Agent: `leadmagic-enrichment`.
-
-### Demo prompts
-
-```text
-Search companies matching my ICP; 15 rows.
-```
-
-```text
-Find the work email for Alex Example at example.com.
-```
-
-```text
-Validate this work email: person@example.com
-```
-
-```text
-Look up a professional mobile number for this work email. I am authorized to contact them.
-```
-
-```text
-Search open backend roles at stripe.com; 5 rows.
-```
-
-## Skills
-
-Front door (Agent Decides, or invoke with `/name`):
-
-| Request | Skill |
-| --- | --- |
-| People / company / jobs search | `market-search` |
-| Find a work email | `find-work-email` |
-| Validate an existing work email | `validate-work-email` |
-| Professional mobile | `find-mobile` |
-
-Supporting (not pushed in marketplace copy): `account-intelligence`, `prospect-list-qc`.
-
-Authoring: [Cursor Agent Skills](https://cursor.com/docs/skills). Plugin model: [https://cursor.com/docs/plugins](https://cursor.com/docs/plugins). Smoke tests: [docs/cursor-smoke-tests.md](docs/cursor-smoke-tests.md).
-
-## Docs
-
-- In Cursor: `leadmagic://docs`
-- [LeadMagic MCP Tools](https://leadmagic.io/docs/mcp/tools)
-- [LeadMagic MCP Setup](https://leadmagic.io/docs/mcp/setup)
-- REST schemas: [LeadMagic OpenAPI](https://github.com/LeadMagic/leadmagic-openapi)
-
-REST (`https://api.leadmagic.io`, `X-API-Key`) is for your own integrations — never commit keys here. Prefer MCP in Cursor.
-
-## Security
-
-Tool calls send emails, names, domains, and B2B profile URLs you provide to LeadMagic. Never commit secrets. [Privacy](https://leadmagic.io/privacy) · [Terms](https://leadmagic.io/legal/terms) · [SECURITY.md](SECURITY.md)
-
-Logo: `assets/logo.svg` (256×256 official icon). Raster copy: `assets/logo.png`.
+Commands: `search`, `find-work-email`, `validate-email`, `find-mobile`. Skills match those four. Agent: `leadmagic-enrichment`. Plugin model: [cursor.com/docs/plugins](https://cursor.com/docs/plugins). Tools: [LeadMagic MCP Tools](https://leadmagic.io/docs/mcp/tools).
 
 ## Develop
 
-Node.js **22**. `npm ci && npm run check` (`npm run validate`, `npm test`, `npm run verify:health`, `npm run verify:auth`). Offline: `npm run validate && npm test`. Copy: `SUBMISSION.md`. Notes: `CHANGELOG.md`.
+Node.js **22**. `npm ci && npm run check` (`npm run validate`, `npm test`, `npm run verify:health`, `npm run verify:auth`). Offline: `npm run validate && npm test`. Copy: `SUBMISSION.md`.
 
-## Troubleshooting
+Tool calls send emails, names, domains, and B2B profile URLs you provide. Never commit secrets. [Privacy](https://leadmagic.io/privacy) · [Terms](https://leadmagic.io/legal/terms) · [SECURITY.md](SECURITY.md)
 
 | Issue | What to try |
 | --- | --- |
-| Browser login | Finish LeadMagic sign-in, then return to Cursor. |
-| MCP `401` | Reconnect OAuth in Customize. Do not paste an API key. |
-| Search or mobile `402` | Separate product entitlement vs wallet; check the app billing page. |
+| Browser login | Finish the opened LeadMagic sign-in page, then return. |
+| MCP `401` | Reconnect OAuth. Do not paste a key. |
+| Search or mobile `402` | Separate entitlement vs wallet; check billing in the app. |
 
 MIT. See [LICENSE](LICENSE).
