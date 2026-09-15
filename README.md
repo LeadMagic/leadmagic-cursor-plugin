@@ -14,7 +14,7 @@ Install today via **Team Marketplace import** of this repo. `/add-plugin leadmag
 
 1. Open **Cursor Dashboard → Plugins → Team Marketplaces → Import from Repo**.
 2. Paste `https://github.com/LeadMagic/leadmagic-cursor-plugin` (same target as `https://mcp.leadmagic.io/cursor-plugin`).
-3. Enable **LeadMagic**. Cursor opens a **browser sign-in** for your LeadMagic account (Clerk — same login as [app.leadmagic.io](https://app.leadmagic.io)). Use Google or email as you do in the app. There is no API key to paste.
+3. Enable **LeadMagic**. The first time any tool hits MCP, **Cursor** prompts OAuth. Complete **Clerk** in the browser (same LeadMagic account as [app.leadmagic.io](https://app.leadmagic.io) — Google or email). There is no API key to paste.
 
 After official marketplace listing, you can also search **LeadMagic** in **Cursor Settings → Plugins** or run `/add-plugin leadmagic`.
 
@@ -41,9 +41,9 @@ Uses `.cursor-plugin/marketplace.json` with `"source": "."`.
 
 ## Sign in (Clerk)
 
-Hosted MCP is `https://mcp.leadmagic.io/mcp`. Cursor discovers OAuth (issuer `https://clerk.leadmagic.io`) and opens the browser. Sign in with the LeadMagic workspace you already use. Do not add `X-API-Key` or other headers to `mcp.json`.
+Hosted MCP is `https://mcp.leadmagic.io/mcp`. Cursor discovers OAuth (`issuer` `https://app.leadmagic.io`, authorize at Clerk) and opens the browser. Sign in with the LeadMagic workspace you already use. Do not add `X-API-Key` or other headers to `mcp.json`. A browser visit to `https://mcp.leadmagic.io/` goes to [app.leadmagic.io/sign-in](https://app.leadmagic.io/sign-in), not a catalog page.
 
-If the browser stops on the LeadMagic/Clerk login page, finish sign-in there, then return to Cursor. Reconnect from MCP settings if tools still return `401`.
+If the browser stops on Clerk / LeadMagic sign-in, finish it, then return to Cursor. Reconnect from MCP settings if tools still return `401`.
 
 Details: [docs/authentication.md](docs/authentication.md) · [LeadMagic MCP authentication](https://leadmagic.io/docs/mcp/authentication).
 
@@ -141,7 +141,7 @@ Node.js **22**. `npm ci && npm run check` (`npm run validate`, `npm test`, `npm 
 
 | Issue | What to try |
 | --- | --- |
-| Browser login | Finish Clerk sign-in at the LeadMagic page, then return to Cursor. |
+| Browser login | Finish Clerk (same app as LeadMagic), then return to Cursor. |
 | MCP `401` | Reconnect OAuth in Customize. Do not paste an API key. |
 | Search or mobile `402` | Separate product entitlement vs wallet; check the app billing page. |
 

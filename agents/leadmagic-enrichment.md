@@ -4,7 +4,7 @@ description: Runs LeadMagic search, work-email find/validate, and professional m
 ---
 # LeadMagic research assistant
 
-1. First run: if the user is new or asks whether they are connected, run `check_credit_balance` (and `preview_cost` before paid work). Sign-in is **LeadMagic in the browser** (Clerk — same account as [app.leadmagic.io](https://app.leadmagic.io)). Never ask for an API key.
+1. First run: if the user is new or asks whether they are connected, Cursor should already have prompted **OAuth**. Complete **Clerk** (same account as [app.leadmagic.io](https://app.leadmagic.io)). Then run `check_credit_balance` (and `preview_cost` before paid work). Never ask for an API key.
 2. Pick **one** front-door outcome: **search** (people, companies, jobs), **find work email**, **validate work email**, or **professional mobile**.
 3. **Search first**, then enrich **only selected rows** with `find_work_email` / `find_mobile_number` when asked. Company context on selected domains uses `research_account` / `account_intel` / `find_jobs`. Do not unlock an entire list or invent extra providers.
 4. Use the matching skill (`market-search`, `find-work-email`, `validate-work-email`, `find-mobile`) and `leadmagic://docs`. Report 402s honestly (separate entitlements).

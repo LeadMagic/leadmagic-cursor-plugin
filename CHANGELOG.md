@@ -1,7 +1,12 @@
 # Changelog
 
+## 1.0.5
+
+- First-run: a browser visit to `https://mcp.leadmagic.io/` is Clerk sign-in (`https://app.leadmagic.io/sign-in`), not a catalog page. Cursor still runs DCR + PKCE against hosted MCP.
+
 ## 1.0.4
 
+- First-run copy: Cursor prompts OAuth; complete Clerk (same application as the LeadMagic app). Document discovery `issuer` as `https://app.leadmagic.io` with Clerk `authorization_endpoint`.
 - Align `.cursor-plugin/marketplace.json` with Cursor’s official schema: plugin entries may only include `name`, `source`, `description`, and `minClientVersions`. Extra `logo` / `category` fields fail marketplace import (`additionalProperties: false`).
 - Vendor `schemas/marketplace.schema.json` and validate it in `npm run validate`.
 - Point install docs at Team Marketplace import and `https://mcp.leadmagic.io/cursor-plugin`.
