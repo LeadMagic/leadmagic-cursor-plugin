@@ -6,7 +6,7 @@ Use after `npm ci` and `npm run check`. Manual acceptance only. Fictional record
 
 1. Install this checkout with `npm run install:local`, **Developer: Reload Window**, open Customize.
 2. Confirm four front-door skills (`market-search`, `find-work-email`, `validate-work-email`, `find-mobile`), two supporting skills, four commands, one agent, LeadMagic MCP.
-3. When Cursor prompts OAuth, complete Clerk (same as the LeadMagic app), then try a credits or validate prompt. Expect a real result or a clear auth error — never a fabricated contact.
+3. When Cursor prompts OAuth, sign in with your LeadMagic account, then try a credits or validate prompt. Expect a real result or a clear auth error — never a fabricated contact.
 
 ## Behavior scenarios
 

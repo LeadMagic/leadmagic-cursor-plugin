@@ -44,12 +44,12 @@ integrations
 2. `.cursor-plugin/marketplace.json` `"source": "."`, metadata.version `1.0.4`, **no** `logo`/`category` on the plugin entry.
 3. `plugin.json` `1.0.4`, category `integrations`, logo `assets/logo.svg`.
 4. `npm ci && npm test && npm run validate`.
-5. Local play: `npm run install:local`, Reload Window, Clerk browser sign-in.
+5. Local play: `npm run install:local`, Reload Window, LeadMagic OAuth in the browser.
 6. Submit at cursor.com/marketplace/publish while logged in as Jesse.
 
 ## AE blurb
 
-LeadMagic for Cursor is hosted MCP with Clerk OAuth — no API keys in the plugin. Four features: people/company/jobs search, work-email find, work-email validate, professional mobile. Same class of B2B contact intelligence as enterprise GTM data platforms, not a scraper. Please list us so `/add-plugin leadmagic` works. Contact plugins@leadmagic.io.
+LeadMagic for Cursor is hosted MCP with OAuth in Cursor — no API keys in the plugin. Four features: people/company/jobs search, work-email find, work-email validate, professional mobile. Same class of B2B contact intelligence as enterprise GTM data platforms, not a scraper. Please list us so `/add-plugin leadmagic` works. Contact plugins@leadmagic.io.
 
 ## Reviewer note
 
