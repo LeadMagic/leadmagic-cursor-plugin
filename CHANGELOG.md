@@ -2,11 +2,11 @@
 
 ## 1.0.5
 
-- First-run: a browser visit to `https://mcp.leadmagic.io/` is Clerk sign-in (`https://app.leadmagic.io/sign-in`), not a catalog page. Cursor still runs DCR + PKCE against hosted MCP.
+- First-run copy is plugin-facing: Cursor prompts OAuth against `https://mcp.leadmagic.io/mcp`. Sign in with your LeadMagic account in the browser. No API key, no vendor internals in the README.
 
 ## 1.0.4
 
-- First-run copy: Cursor prompts OAuth; complete Clerk (same application as the LeadMagic app). Document discovery `issuer` as `https://app.leadmagic.io` with Clerk `authorization_endpoint`.
+- First-run copy: Cursor prompts OAuth; sign in with your LeadMagic account in the browser.
 - Align `.cursor-plugin/marketplace.json` with Cursor’s official schema: plugin entries may only include `name`, `source`, `description`, and `minClientVersions`. Extra `logo` / `category` fields fail marketplace import (`additionalProperties: false`).
 - Vendor `schemas/marketplace.schema.json` and validate it in `npm run validate`.
 - Point install docs at Team Marketplace import and `https://mcp.leadmagic.io/cursor-plugin`.
@@ -25,7 +25,7 @@
 ## 1.0.1
 
 - Front door is four features: people/company/jobs search, work-email find, work-email validate, professional mobile.
-- Clerk/OAuth first-run copy matches app.leadmagic.io sign-in. Marketplace tone is licensed B2B contact data, not scraping.
+- OAuth first-run copy matches app.leadmagic.io sign-in. Marketplace tone is licensed B2B contact data, not scraping.
 - Trim GTM extras from README, agent, and commands; keep thin supporting skills only.
 
 ## 1.0.0
