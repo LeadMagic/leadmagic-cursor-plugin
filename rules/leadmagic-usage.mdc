@@ -7,5 +7,5 @@ alwaysApply: false
 1. Prefer hosted MCP tools. Consult `leadmagic://docs`. Do not invent parameters or private APIs.
 2. Stay on the requested outcome: search, find work email, validate work email, or professional mobile. After search, enrich only selected rows. Preview cost before bulk or mobile lookups.
 3. Validate only emails the user already has. Finder results are already validated. Accept a **B2B profile URL** as input when that is what they have.
-4. Treat results as confidential business data. Never request API keys in chat. Sign in with the LeadMagic account in Cursor’s browser (Clerk).
+4. Treat results as confidential business data. Never request API keys in chat. First run is Cursor OAuth, then Clerk (same LeadMagic app).
 5. Report actual tools, statuses, and unknowns. Do not invent contact details or scraping claims.
