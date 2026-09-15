@@ -234,7 +234,6 @@ try {
 		"README.md",
 		"SUBMISSION.md",
 		"mcp.json",
-		".mcp.json",
 		"agents",
 		"commands",
 		"skills",
@@ -311,26 +310,14 @@ try {
 		"leadmagic MCP default must omit headers, command, and env so Cursor uses OAuth sign-in with LeadMagic",
 	);
 
-	assert(exists(".mcp.json"), "Missing .mcp.json (cursor.directory Open Plugins auto-detect)");
-	const directoryMcp = readJson(".mcp.json");
-	assert(
-		fs.readFileSync(path.join(root, ".mcp.json"), "utf8") ===
-			fs.readFileSync(path.join(root, "mcp.json"), "utf8"),
-		".mcp.json must be byte-identical to mcp.json so Cursor and the community index advertise the same OAuth MCP",
-	);
-	assert(
-		JSON.stringify(directoryMcp) === JSON.stringify(mcp),
-		".mcp.json must match mcp.json so Cursor and the community index advertise the same OAuth MCP",
-	);
+	assert(!exists(".mcp.json"), "Do not ship a duplicate .mcp.json; Open Plugins and Cursor both load mcp.json");
 
 	const skillsRoot = path.join(root, "skills");
 	assert(fs.existsSync(skillsRoot), "Missing skills directory");
 	const expectedSkills = [
-		"account-intelligence",
 		"find-mobile",
 		"find-work-email",
 		"market-search",
-		"prospect-list-qc",
 		"validate-work-email",
 	];
 	const skillDirs = fs
@@ -388,7 +375,6 @@ try {
 	for (const expectedText of [
 		"https://mcp.leadmagic.io/mcp",
 		"https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
-		"https://github.com/LeadMagic/leadmagic-openapi",
 		"https://cursor.com/docs/plugins",
 		"https://mcp.leadmagic.io/cursor-plugin",
 		"[SECURITY.md](SECURITY.md)",

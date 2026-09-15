@@ -2,9 +2,9 @@
 
 ## 1.0.5
 
-- Dual-publish for cursor.directory Auto GitHub scan: keep `.cursor-plugin/` (Cursor Plugin 3.13 marketplace schema) and add root `plugin.json` (Agent Plugins 1.0.0).
-- `mcp.json` and `.mcp.json` are identical OAuth HTTP config: `streamable-http` to `https://mcp.leadmagic.io/mcp`, no keys or extra servers.
-- List for Cursor and Grok Bot (same marketplace): `minClientVersions.grokbot` `0.49.0`. First-run copy is the same OAuth MCP; no second login page.
+- Dual-publish for cursor.directory Auto: `.cursor-plugin/` (Cursor Plugin 3.13) plus root `plugin.json` (Agent Plugins 1.0.0).
+- `mcp.json` is OAuth `streamable-http` to `https://mcp.leadmagic.io/mcp` only (no keys, no extra servers, no `.mcp.json` duplicate).
+- Four front-door skills only. Cursor and Grok Bot share one marketplace listing (`minClientVersions.grokbot` `0.49.0`). One Hosted OAuth sign-in page.
 
 ## 1.0.4
 
