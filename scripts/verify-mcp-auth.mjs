@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 
 const MCP = "https://mcp.leadmagic.io/mcp";
 const RESOURCE_METADATA = "https://mcp.leadmagic.io/.well-known/oauth-protected-resource/mcp";
-const ISSUER = "https://app.leadmagic.io";
+const ISSUER = "https://clerk.leadmagic.io";
 const AUTH_METADATA = `${ISSUER}/.well-known/oauth-authorization-server`;
 function assert(condition, message) { if (!condition) throw new Error(message); }
 function supports(values, value) { return Array.isArray(values) && values.includes(value); }
@@ -49,8 +49,8 @@ export async function verifyMcpAuth(fetchImpl = fetch) {
   assert(supports(auth.token_endpoint_auth_methods_supported, "none"), "OAuth must support public clients without a bundled secret.");
   for (const [field, expected] of Object.entries({
     authorization_endpoint: "https://clerk.leadmagic.io/oauth/authorize",
-    token_endpoint: "https://mcp.leadmagic.io/oauth/token",
-    registration_endpoint: "https://mcp.leadmagic.io/oauth/register",
+    token_endpoint: "https://clerk.leadmagic.io/oauth/token",
+    registration_endpoint: "https://clerk.leadmagic.io/oauth/register",
   })) assert(auth[field] === expected, `Unexpected OAuth ${field}; review the provider configuration.`);
   return "OAuth discovery passed: Bearer challenge, resource, issuer, PKCE S256, and public-client registration metadata. Browser sign-in remains a separate check.";
 }

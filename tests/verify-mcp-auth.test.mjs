@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { verifyMcpAuth } from "../scripts/verify-mcp-auth.mjs";
 const mcp = "https://mcp.leadmagic.io/mcp";
 const resourceUrl = "https://mcp.leadmagic.io/.well-known/oauth-protected-resource/mcp";
-const issuer = "https://app.leadmagic.io";
+const issuer = "https://clerk.leadmagic.io";
 function fixture() {
   return {
     challenge: { status: 401, headers: { "www-authenticate": `Bearer resource_metadata="${resourceUrl}"` } },
@@ -12,7 +12,7 @@ function fixture() {
       issuer, response_types_supported: ["code"], grant_types_supported: ["authorization_code"],
       code_challenge_methods_supported: ["S256"], token_endpoint_auth_methods_supported: ["none"],
       authorization_endpoint: "https://clerk.leadmagic.io/oauth/authorize",
-      token_endpoint: "https://mcp.leadmagic.io/oauth/token", registration_endpoint: "https://mcp.leadmagic.io/oauth/register",
+      token_endpoint: "https://clerk.leadmagic.io/oauth/token", registration_endpoint: "https://clerk.leadmagic.io/oauth/register",
     },
   };
 }
