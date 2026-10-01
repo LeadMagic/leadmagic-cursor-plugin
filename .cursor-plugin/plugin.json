@@ -5,7 +5,7 @@
 	"minClientVersions": {
 		"cursor": "3.13.0"
 	},
-	"description": "Official LeadMagic plugin for Cursor. Search people, companies, and jobs; find and validate work emails; look up professional mobile numbers.",
+	"description": "Official LeadMagic plugin for Cursor with 130+ hosted MCP tools. Search people, companies, and jobs; find and validate work emails; look up professional mobile numbers.",
 	"author": {
 		"name": "LeadMagic",
 		"email": "plugins@leadmagic.io"
