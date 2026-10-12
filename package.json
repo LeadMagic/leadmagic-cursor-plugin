@@ -5,7 +5,7 @@
   "engines": {
     "node": ">=22"
   },
-  "description": "Submission package for the LeadMagic Cursor plugin",
+  "description": "LeadMagic plugin for Cursor",
   "license": "MIT",
   "scripts": {
     "validate": "node scripts/validate-plugin.mjs",

@@ -7,8 +7,6 @@ import { verifyLogo, verifyRasterLogo } from "./verify-logo.mjs";
 import { validateFrontmatter } from "./validate-frontmatter.mjs";
 
 const root = process.cwd();
-const expectedSubmissionLogoUrl =
-	"https://raw.githubusercontent.com/LeadMagic/leadmagic-cursor-plugin/main/assets/logo.svg";
 
 function readJson(relPath) {
 	return JSON.parse(fs.readFileSync(path.join(root, relPath), "utf8"));
@@ -173,7 +171,6 @@ try {
 		".cursor-plugin/plugin.json",
 		".cursor-plugin/marketplace.json",
 		"README.md",
-		"SUBMISSION.md",
 		"mcp.json",
 		".mcp.json",
 		"agents",
@@ -331,35 +328,6 @@ try {
 		);
 	}
 
-	const submissionPath = path.join(root, "SUBMISSION.md");
-	assert(fs.existsSync(submissionPath), "Missing SUBMISSION.md");
-	const submission = fs.readFileSync(submissionPath, "utf8");
-	assert(
-		submission.includes("https://github.com/LeadMagic/leadmagic-cursor-plugin"),
-		"SUBMISSION.md must include the GitHub repository",
-	);
-	assert(
-		submission.includes("Official LeadMagic plugin for Cursor."),
-		"SUBMISSION.md must keep the primary marketplace description",
-	);
-	assert(
-		submission.includes("hosted MCP surface"),
-		"SUBMISSION.md description must mention the hosted MCP surface",
-	);
-	assert(
-		submission.includes(expectedSubmissionLogoUrl),
-		"SUBMISSION.md must use the repo-hosted canonical logo URL",
-	);
-	assert(
-		submission.includes("https://cursor.directory/plugins/new"),
-		"SUBMISSION.md must document the community directory submit URL",
-	);
-	assert(
-		submission.includes("after official marketplace") ||
-			submission.includes("AFTER official marketplace") ||
-			submission.includes("after Cursor Marketplace"),
-		"SUBMISSION.md must sequence community listing after official marketplace",
-	);
 	assert(
 		plugin.repository ===
 			"https://github.com/LeadMagic/leadmagic-cursor-plugin",
