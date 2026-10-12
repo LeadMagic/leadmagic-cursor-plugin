@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- `account-intelligence` routes to the company tools the hosted MCP lists (`research_account`, `account_intel`, `find_company_funding`, `get_company_technographics`) and no longer mentions paused competitor tools.
+
 ## 1.0.5
 
 - First-run copy is plugin-facing: Cursor prompts OAuth against `https://mcp.leadmagic.io/mcp`. Sign in with your LeadMagic account in the browser. No API key, no vendor internals in the README.
