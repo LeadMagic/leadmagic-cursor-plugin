@@ -2,7 +2,7 @@
 
 <img src="https://raw.githubusercontent.com/LeadMagic/leadmagic-cursor-plugin/main/assets/logo.svg" width="64" height="64" alt="LeadMagic logo">
 
-Official LeadMagic plugin for Cursor. Connect your agent to LeadMagic’s hosted MCP (130+ tools) for B2B research: **search** people, companies, and jobs; **find** and **validate** work emails; look up **professional mobile** numbers.
+Official LeadMagic plugin for Cursor. Connect your agent to LeadMagic’s hosted MCP for B2B research: **search** people, companies, and jobs; **find** and **validate** work emails; look up **professional mobile** numbers.
 
 [LeadMagic](https://leadmagic.io?utm_source=github&utm_medium=readme&utm_campaign=leadmagic-cursor-plugin) · [MCP setup](https://leadmagic.io/docs/mcp/setup?utm_source=github&utm_medium=readme&utm_campaign=leadmagic-cursor-plugin) · [Pricing](https://leadmagic.io/pricing?utm_source=github&utm_medium=readme&utm_campaign=leadmagic-cursor-plugin)
 
@@ -135,7 +135,7 @@ Logo: `assets/logo.svg` (256×256 official icon). Raster copy: `assets/logo.png`
 
 ## Develop
 
-Node.js **22**. `npm ci && npm run check` (`npm run validate`, `npm test`, `npm run verify:health`, `npm run verify:auth`). Offline: `npm run validate && npm test`. Copy: `SUBMISSION.md`. Notes: `CHANGELOG.md`.
+Node.js **22**. `npm ci && npm run check` (`npm run validate`, `npm test`, `npm run verify:health`, `npm run verify:auth`). Offline: `npm run validate && npm test`. Notes: `CHANGELOG.md`.
 
 ## Troubleshooting
 
