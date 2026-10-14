@@ -7,8 +7,7 @@ import { verifyLogo, verifyRasterLogo } from "./verify-logo.mjs";
 import { validateFrontmatter } from "./validate-frontmatter.mjs";
 
 const root = process.cwd();
-const expectedSubmissionLogoUrl =
-	"https://raw.githubusercontent.com/LeadMagic/leadmagic-cursor-plugin/main/assets/logo.svg";
+const publisher = "LeadMagic Corporation";
 
 function readJson(relPath) {
 	return JSON.parse(fs.readFileSync(path.join(root, relPath), "utf8"));
@@ -128,9 +127,9 @@ try {
 	const marketplace = readJson(".cursor-plugin/marketplace.json");
 	assert(marketplace.name === "leadmagic", "marketplace.json name must be leadmagic");
 	assert(
-		marketplace.owner?.name === "LeadMagic" &&
+		marketplace.owner?.name === publisher &&
 			marketplace.owner?.email === "plugins@leadmagic.io",
-		"marketplace.json owner must match LeadMagic plugin identity",
+		"marketplace.json owner must be LeadMagic Corporation with the official plugin email",
 	);
 	assert(
 		marketplace.metadata?.version === plugin.version,
@@ -173,7 +172,6 @@ try {
 		".cursor-plugin/plugin.json",
 		".cursor-plugin/marketplace.json",
 		"README.md",
-		"SUBMISSION.md",
 		"mcp.json",
 		".mcp.json",
 		"agents",
@@ -331,35 +329,6 @@ try {
 		);
 	}
 
-	const submissionPath = path.join(root, "SUBMISSION.md");
-	assert(fs.existsSync(submissionPath), "Missing SUBMISSION.md");
-	const submission = fs.readFileSync(submissionPath, "utf8");
-	assert(
-		submission.includes("https://github.com/LeadMagic/leadmagic-cursor-plugin"),
-		"SUBMISSION.md must include the GitHub repository",
-	);
-	assert(
-		submission.includes("Official LeadMagic plugin for Cursor."),
-		"SUBMISSION.md must keep the primary marketplace description",
-	);
-	assert(
-		submission.includes("hosted MCP surface"),
-		"SUBMISSION.md description must mention the hosted MCP surface",
-	);
-	assert(
-		submission.includes(expectedSubmissionLogoUrl),
-		"SUBMISSION.md must use the repo-hosted canonical logo URL",
-	);
-	assert(
-		submission.includes("https://cursor.directory/plugins/new"),
-		"SUBMISSION.md must document the community directory submit URL",
-	);
-	assert(
-		submission.includes("after official marketplace") ||
-			submission.includes("AFTER official marketplace") ||
-			submission.includes("after Cursor Marketplace"),
-		"SUBMISSION.md must sequence community listing after official marketplace",
-	);
 	assert(
 		plugin.repository ===
 			"https://github.com/LeadMagic/leadmagic-cursor-plugin",
@@ -374,8 +343,12 @@ try {
 		"plugin.json homepage must match the LeadMagic site",
 	);
 	assert(
-		plugin.author?.name === "LeadMagic",
-		"plugin.json author name must stay aligned",
+		plugin.author?.name === publisher,
+		"plugin.json author name must be LeadMagic Corporation",
+	);
+	assert(
+		/^Copyright \(c\) \d{4} LeadMagic Corporation$/m.test(fs.readFileSync(path.join(root, "LICENSE"), "utf8")),
+		"LICENSE copyright holder must be LeadMagic Corporation",
 	);
 	assert(
 		plugin.description.includes("Official LeadMagic plugin for Cursor"),

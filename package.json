@@ -1,11 +1,11 @@
 {
   "name": "leadmagic-cursor-plugin",
   "private": true,
-	"version": "1.0.4",
+	"version": "1.0.5",
   "engines": {
     "node": ">=22"
   },
-  "description": "Submission package for the LeadMagic Cursor plugin",
+  "description": "LeadMagic plugin for Cursor",
   "license": "MIT",
   "scripts": {
     "validate": "node scripts/validate-plugin.mjs",
@@ -20,6 +20,6 @@
   "devDependencies": {
     "ajv": "8.20.0",
     "ajv-formats": "3.0.1",
-    "yaml": "2.9.0"
+    "yaml": "2.9.1"
   }
 }

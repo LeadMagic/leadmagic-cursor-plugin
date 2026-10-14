@@ -1,18 +1,18 @@
 {
 	"name": "leadmagic",
 	"owner": {
-		"name": "LeadMagic",
+		"name": "LeadMagic Corporation",
 		"email": "plugins@leadmagic.io"
 	},
 	"metadata": {
-		"description": "Official LeadMagic plugin for Cursor: 130+ hosted MCP tools for search, work email, and professional mobile.",
-		"version": "1.0.4"
+		"description": "Official LeadMagic plugin for Cursor: hosted MCP tools for search, work email, and professional mobile.",
+		"version": "1.0.5"
 	},
 	"plugins": [
 		{
 			"name": "leadmagic",
 			"source": ".",
-			"description": "Official LeadMagic plugin for Cursor with 130+ hosted MCP tools. Search people, companies, and jobs; find and validate work emails; look up professional mobile numbers.",
+			"description": "Official LeadMagic plugin for Cursor with hosted MCP tools. Search people, companies, and jobs; find and validate work emails; look up professional mobile numbers.",
 			"minClientVersions": {
 				"cursor": "3.13.0"
 			}
