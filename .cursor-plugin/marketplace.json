@@ -1,12 +1,12 @@
 {
 	"name": "leadmagic",
 	"owner": {
-		"name": "LeadMagic",
+		"name": "LeadMagic Corporation",
 		"email": "plugins@leadmagic.io"
 	},
 	"metadata": {
 		"description": "Official LeadMagic plugin for Cursor: hosted MCP tools for search, work email, and professional mobile.",
-		"version": "1.0.4"
+		"version": "1.0.5"
 	},
 	"plugins": [
 		{

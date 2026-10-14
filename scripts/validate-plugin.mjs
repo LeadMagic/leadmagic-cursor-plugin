@@ -7,6 +7,7 @@ import { verifyLogo, verifyRasterLogo } from "./verify-logo.mjs";
 import { validateFrontmatter } from "./validate-frontmatter.mjs";
 
 const root = process.cwd();
+const publisher = "LeadMagic Corporation";
 
 function readJson(relPath) {
 	return JSON.parse(fs.readFileSync(path.join(root, relPath), "utf8"));
@@ -126,9 +127,9 @@ try {
 	const marketplace = readJson(".cursor-plugin/marketplace.json");
 	assert(marketplace.name === "leadmagic", "marketplace.json name must be leadmagic");
 	assert(
-		marketplace.owner?.name === "LeadMagic" &&
+		marketplace.owner?.name === publisher &&
 			marketplace.owner?.email === "plugins@leadmagic.io",
-		"marketplace.json owner must match LeadMagic plugin identity",
+		"marketplace.json owner must be LeadMagic Corporation with the official plugin email",
 	);
 	assert(
 		marketplace.metadata?.version === plugin.version,
@@ -342,8 +343,12 @@ try {
 		"plugin.json homepage must match the LeadMagic site",
 	);
 	assert(
-		plugin.author?.name === "LeadMagic",
-		"plugin.json author name must stay aligned",
+		plugin.author?.name === publisher,
+		"plugin.json author name must be LeadMagic Corporation",
+	);
+	assert(
+		/^Copyright \(c\) \d{4} LeadMagic Corporation$/m.test(fs.readFileSync(path.join(root, "LICENSE"), "utf8")),
+		"LICENSE copyright holder must be LeadMagic Corporation",
 	);
 	assert(
 		plugin.description.includes("Official LeadMagic plugin for Cursor"),
