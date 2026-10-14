@@ -4,6 +4,8 @@
 
 Official LeadMagic plugin for Cursor. Connect your agent to LeadMagic’s hosted MCP for B2B research: **search** people, companies, and jobs; **find** and **validate** work emails; look up **professional mobile** numbers.
 
+Published by LeadMagic Corporation.
+
 [LeadMagic](https://leadmagic.io?utm_source=github&utm_medium=readme&utm_campaign=leadmagic-cursor-plugin) · [MCP setup](https://leadmagic.io/docs/mcp/setup?utm_source=github&utm_medium=readme&utm_campaign=leadmagic-cursor-plugin) · [Pricing](https://leadmagic.io/pricing?utm_source=github&utm_medium=readme&utm_campaign=leadmagic-cursor-plugin)
 
 This is licensed contact and company intelligence — the same class of product as enterprise GTM data platforms. It is **not** a scraper. Hosted MCP is OAuth only (no API key in this plugin).
