@@ -2,7 +2,7 @@
 
 Enable the LeadMagic plugin in Customize. On first MCP use, **Cursor** prompts OAuth. Sign in with your LeadMagic account in the browser (Google or email — the same account as [app.leadmagic.io](https://app.leadmagic.io)). After you finish, return to Cursor. Use a simple search or `validate-email` prompt to confirm the connection.
 
-The bundled `mcp.json` contains only HTTP transport and `https://mcp.leadmagic.io/mcp`. Do not add REST API keys, `X-API-Key`, static Authorization headers, client secrets, or tokens. Cursor discovers OAuth from the hosted MCP URL and opens the browser. See [LeadMagic authentication](https://leadmagic.io/docs/mcp/authentication) and [Cursor MCP documentation](https://cursor.com/docs/mcp).
+The bundled `mcp.json` declares the Agent Plugins schema, `streamable-http` transport and `https://mcp.leadmagic.io/mcp`. The retained `.mcp.json` alias has the same configuration. Do not add REST API keys, `X-API-Key`, static Authorization headers, client secrets, or tokens. Cursor discovers OAuth from the hosted MCP URL and opens the browser. See [LeadMagic authentication](https://leadmagic.io/docs/mcp/authentication) and [Cursor MCP documentation](https://cursor.com/docs/mcp).
 
 ## Diagnose the stage that failed
 

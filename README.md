@@ -2,7 +2,7 @@
 
 <img src="https://raw.githubusercontent.com/LeadMagic/leadmagic-cursor-plugin/main/assets/logo.svg" width="64" height="64" alt="LeadMagic logo">
 
-Official LeadMagic plugin for Cursor. Connect your agent to LeadMagic’s hosted MCP for B2B research: **search** people, companies, and jobs; **find** and **validate** work emails; look up **professional mobile** numbers.
+Official LeadMagic plugin for Cursor and Grok Bot. Connect your agent to LeadMagic’s hosted MCP for B2B research: **search** people, companies, and jobs; **find** and **validate** work emails; look up **professional mobile** numbers.
 
 Published by LeadMagic Corporation.
 
@@ -41,6 +41,10 @@ https://github.com/LeadMagic/leadmagic-cursor-plugin
 
 Uses `.cursor-plugin/marketplace.json` with `"source": "."`.
 
+### Portable Agent Plugins
+
+The root `plugin.json` follows [Agent Plugins 1.0.0](https://agent-plugins.org/schemas/1.0.0/plugin.schema.json), alongside the existing Cursor manifest. Both use the same skills and OAuth MCP configuration. `mcp.json` declares `streamable-http`; the retained `.mcp.json` compatibility alias matches it. The package metadata declares Cursor 3.13.0 and Grok Bot 0.49.0 minimum client versions. Marketplace availability and a completed browser sign-in must be checked in the client you use.
+
 ## Sign in
 
 Hosted MCP is `https://mcp.leadmagic.io/mcp`. Cursor starts OAuth and opens the browser. Sign in with the LeadMagic workspace you already use. Do not add `X-API-Key` or other headers to `mcp.json`.
@@ -51,9 +55,10 @@ Details: [docs/authentication.md](docs/authentication.md) · [LeadMagic MCP auth
 
 ```json
 {
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
   "mcpServers": {
     "leadmagic": {
-      "type": "http",
+      "type": "streamable-http",
       "url": "https://mcp.leadmagic.io/mcp"
     }
   }
@@ -137,7 +142,7 @@ Logo: `assets/logo.svg` (256×256 official icon). Raster copy: `assets/logo.png`
 
 ## Develop
 
-Node.js **22**. `npm ci && npm run check` (`npm run validate`, `npm test`, `npm run verify:health`, `npm run verify:auth`). Offline: `npm run validate && npm test`. Notes: `CHANGELOG.md`.
+Node.js **24**, pinned in `.node-version`. `npm ci && npm run check` (`npm run validate`, `npm test`, `npm run verify:health`, `npm run verify:auth`). Offline: `npm run validate && npm test`. Notes: `CHANGELOG.md`.
 
 ## Troubleshooting
 
