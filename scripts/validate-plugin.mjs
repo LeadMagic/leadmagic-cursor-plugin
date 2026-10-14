@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import Ajv from "ajv";
+import Ajv2020 from "ajv/dist/2020.js";
 import addFormats from "ajv-formats";
 import fs from "node:fs";
 import path from "node:path";
@@ -42,15 +43,27 @@ try {
 	const ajv = new Ajv({ allErrors: true });
 	addFormats(ajv);
 	const validatePlugin = ajv.compile(pluginSchema);
+	const ajv2020 = new Ajv2020({ allErrors: true, strict: false });
+	addFormats(ajv2020);
 
 	assert(
 		exists(".cursor-plugin/plugin.json"),
 		"Missing .cursor-plugin/plugin.json",
 	);
 	const plugin = readJson(".cursor-plugin/plugin.json");
+	assert(exists("plugin.json"), "Missing root Agent Plugins manifest");
+	const portablePlugin = readJson("plugin.json");
 	const pkg = readJson("package.json");
 	const lock = readJson("package-lock.json");
 	assert(plugin.version === pkg.version && pkg.version === lock.version && pkg.version === lock.packages[""].version, "Plugin, package and lockfile versions must match");
+	assert(portablePlugin.version === plugin.version, "Root and Cursor plugin versions must match");
+	const validatePortablePlugin = ajv2020.compile(readJson("schemas/agent-plugins-plugin.schema.json"));
+	assert(validatePortablePlugin(portablePlugin), `Root plugin.json must satisfy Agent Plugins 1.0.0: ${formatAjvErrors(validatePortablePlugin.errors)}`);
+	assert(portablePlugin.$schema === "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json", "Root plugin must declare the Agent Plugins schema");
+	assert(portablePlugin.name === plugin.name, "Portable plugin name must match the Cursor namespace");
+	assert(portablePlugin.author?.name === publisher && portablePlugin.author?.email === "plugins@leadmagic.io", "Portable plugin publisher must be LeadMagic Corporation");
+	assert(portablePlugin.repository === plugin.repository && portablePlugin.license === plugin.license, "Portable plugin repository and license must match the Cursor package");
+	assert(exists("schemas/agent-plugins-LICENSE.txt"), "Vendored schema license must be preserved");
 	assert(plugin.logo === "assets/logo.svg", "Plugin must use the bundled LeadMagic logo");
 	assert(
 		validatePlugin(plugin),
@@ -89,6 +102,7 @@ try {
 		plugin.minClientVersions?.cursor === "3.13.0",
 		"plugin.json minClientVersions.cursor must be 3.13.0",
 	);
+	assert(plugin.minClientVersions?.grokbot === "0.49.0", "Plugin must retain the declared Grok Bot minimum version");
 	assert(
 		!/\blinkedin\b/i.test(plugin.description),
 		"plugin.json description must not mention LinkedIn",
@@ -148,6 +162,7 @@ try {
 		marketplace.plugins[0]?.minClientVersions?.cursor === "3.13.0",
 		"marketplace.json plugin entry minClientVersions.cursor must be 3.13.0",
 	);
+	assert(marketplace.plugins[0]?.minClientVersions?.grokbot === plugin.minClientVersions.grokbot, "Marketplace and plugin Grok Bot minimum versions must match");
 	assert(
 		!("logo" in (marketplace.plugins[0] ?? {})),
 		"marketplace.json plugin entries must not include logo (Cursor marketplace.schema.json additionalProperties: false)",
@@ -171,6 +186,7 @@ try {
 	const shipCopyRoots = [
 		".cursor-plugin/plugin.json",
 		".cursor-plugin/marketplace.json",
+		"plugin.json",
 		"README.md",
 		"mcp.json",
 		".mcp.json",
@@ -205,6 +221,8 @@ try {
 		"Missing SECURITY.md (vulnerability disclosure and hardening)",
 	);
 	assert(exists("LICENSE"), "Missing LICENSE");
+	assert(exists("LICENSE-NOTES.md") && exists("PUBLICATION.md"), "Public license/publication notes must be preserved");
+	assert(exists("docs/authentication.md") && exists("docs/cursor-smoke-tests.md"), "Authentication and manual smoke documentation must be preserved");
 	assert(
 		exists(".node-version"),
 		"Missing .node-version (CI / local Node alignment)",
@@ -212,7 +230,10 @@ try {
 
 	assert(exists("mcp.json"), "Missing mcp.json");
 	const mcp = readJson("mcp.json");
-	assert(JSON.stringify(Object.keys(mcp)) === '["mcpServers"]', "Unexpected MCP configuration fields");
+	assert(JSON.stringify(Object.keys(mcp)) === '["$schema","mcpServers"]', "Unexpected MCP configuration fields");
+	assert(mcp.$schema === "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json", "MCP configuration must declare the Agent Plugins schema");
+	const validatePortableMcp = ajv2020.compile(readJson("schemas/agent-plugins-mcp.schema.json"));
+	assert(validatePortableMcp(mcp), `mcp.json must satisfy Agent Plugins 1.0.0: ${formatAjvErrors(validatePortableMcp.errors)}`);
 	assert(mcp.mcpServers && JSON.stringify(Object.keys(mcp.mcpServers)) === '["leadmagic"]', "Only the LeadMagic server may be bundled");
 	assert(mcp.mcpServers.leadmagic && Object.keys(mcp.mcpServers.leadmagic).sort().join(",") === "type,url", "Hosted MCP config must contain only type and url; no credentials or commands");
 	assert(
@@ -225,8 +246,8 @@ try {
 		"mcp.json must define the leadmagic server",
 	);
 	assert(
-		mcp.mcpServers.leadmagic.type === "http",
-		"leadmagic MCP server must declare HTTP transport explicitly",
+		mcp.mcpServers.leadmagic.type === "streamable-http",
+		"leadmagic MCP server must declare portable streamable-http transport explicitly",
 	);
 	assert(
 		mcp.mcpServers.leadmagic.url === "https://mcp.leadmagic.io/mcp",
@@ -242,7 +263,7 @@ try {
 		"leadmagic MCP default must omit headers so Cursor uses OAuth sign-in with LeadMagic",
 	);
 
-	assert(exists(".mcp.json"), "Missing .mcp.json (cursor.directory Open Plugins auto-detect)");
+	assert(exists(".mcp.json"), "Missing retained legacy MCP alias");
 	const directoryMcp = readJson(".mcp.json");
 	assert(
 		JSON.stringify(directoryMcp) === JSON.stringify(mcp),
