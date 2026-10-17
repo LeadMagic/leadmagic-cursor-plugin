@@ -1,14 +1,14 @@
 # Changelog
 
+## Unreleased
+
+- `account-intelligence` routes to the company tools the hosted MCP lists (`research_account`, `account_intel`, `find_company_funding`, `get_company_technographics`) and no longer mentions paused competitor tools.
+
 ## 1.0.6
 
 - Add the portable Agent Plugins manifest and schema-validated streamable HTTP MCP configuration alongside the Cursor package.
 - Declare Grok Bot client metadata while preserving the Corporate publisher, public policies, OAuth documentation and six existing skills.
 - Keep the synchronized legacy MCP alias and current dependency/CI updates.
-
-## Unreleased
-
-- `account-intelligence` routes to the company tools the hosted MCP lists (`research_account`, `account_intel`, `find_company_funding`, `get_company_technographics`) and no longer mentions paused competitor tools.
 
 ## 1.0.5
 
